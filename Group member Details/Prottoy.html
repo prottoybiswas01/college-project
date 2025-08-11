@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speedology - Interactive Application</title>
+    <style>
+        :root {
+            --cream-color: #f5f5dc;
+            --accent-color: #d4a76a;
+            --text-color: #333;
+            --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--cream-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Car animation in background */
+        .car-animation {
+            position: fixed;
+            bottom: 50px;
+            left: -200px;
+            width: 200px;
+            height: 100px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50"><rect x="10" y="20" width="80" height="20" fill="%23d4a76a"/><circle cx="25" cy="40" r="10" fill="%23333"/><circle cx="75" cy="40" r="10" fill="%23333"/></svg>');
+            background-repeat: no-repeat;
+            opacity: 0.3;
+            z-index: -1;
+            animation: drive 20s linear infinite;
+        }
+        
+        @keyframes drive {
+            0% { transform: translateX(-200px); }
+            100% { transform: translateX(calc(100vw + 200px)); }
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .profile-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--accent-color);
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+        
+        .profile-info {
+            text-align: center;
+            width: 100%;
+        }
+        
+        .profile-info h1 {
+            margin: 0;
+            color: var(--accent-color);
+            font-size: 28px;
+        }
+        
+        .profile-info p {
+            margin: 8px 0;
+            font-size: 16px;
+        }
+        
+        .activities-container {
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .activities-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            width: 200px;
+            margin: 0 auto;
+            display: block;
+            box-shadow: var(--shadow);
+        }
+        
+        .activities-btn:hover {
+            background-color: #c0955d;
+            transform: translateY(-2px);
+        }
+        
+        .activities-dropdown {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+            background-color: white;
+            border-radius: 5px;
+            margin-top: 10px;
+            box-shadow: var(--shadow);
+        }
+        
+        .activities-dropdown.active {
+            max-height: 500px;
+            padding: 15px;
+        }
+        
+        .activities-dropdown ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .activities-dropdown li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .activities-dropdown li:last-child {
+            border-bottom: none;
+        }
+        
+        /* Navigation Styles */
+        nav {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            padding: 15px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-weight: bold;
+            color: var(--accent-color);
+            font-size: 1.2rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links li {
+            margin: 0 15px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--accent-color);
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #b38a4e;
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: var(--accent-color);
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin-top: 30px;
+        }
+        
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            .profile-card {
+                padding: 20px;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: white;
+                flex-direction: column;
+                align-items: center;
+                padding: 15px 0;
+                border-radius: 0 0 10px 10px;
+                box-shadow: var(--shadow);
+                max-height: 0;
+                overflow: hidden;
+                z-index: 100;
+            }
+            
+            .nav-links.active {
+                max-height: 500px;
+                padding: 15px 0;
+            }
+            
+            .nav-links li {
+                margin: 10px 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .nav-links a {
+                display: block;
+                padding: 10px;
+            }
+            
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+            
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .profile-picture {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .profile-info h1 {
+                font-size: 24px;
+            }
+            
+            .activities-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background car animation -->
+    <div class="car-animation"></div>
+    <div class="car-animation" style="bottom: 150px; animation-delay: 5s; animation-duration: 25s;"></div>
+    <div class="car-animation" style="bottom: 200px; animation-delay: 10s; animation-duration: 30s;"></div>
+    
+    <div class="container">
+        <!-- Navigation -->
+        <nav>
+            <div class="nav-container">
+                <div class="logo">MIST</div>
+                <div class="hamburger" onclick="toggleMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="/index.html">Home</a></li>
+                    <!-- Add more links as needed -->
+                </ul>
+            </div>
+        </nav>
+        
+        <!-- Profile Card -->
+        <div class="profile-card">
+            <img src="https://i.ibb.co/WpnjGDQC/IMG-20250428-134532-removebg-preview.png" alt="Profile Picture" class="profile-picture">
+            
+            <div class="profile-info">
+                <h1>Prottoy Kumar Biswas</h1>
+                <p><strong>Department:</strong> Computer Science</p>
+                <p><strong>Roll:</strong>638081
+                <p><strong>Semester:</strong> 7th</p>
+                
+                <div class="activities-container">
+                    <button class="activities-btn" onclick="toggleActivities()">Activities ▼</button>
+                    <div class="activities-dropdown" id="activitiesDropdown">
+                        <ul>
+                            <li>Arduino code & Softwere Development & Debug</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2024-2025 Vehicle Speed ​​Detection Project (Interactive Presentation). All rights reserved.</p>
+            <p>Mangrove Institute of Science and Technology</p>
+        </footer>
+    </div>
+    
+    <script>
+        function toggleActivities() {
+            const dropdown = document.getElementById('activitiesDropdown');
+            dropdown.classList.toggle('active');
+            
+            const button = document.querySelector('.activities-btn');
+            if (dropdown.classList.contains('active')) {
+                button.textContent = 'Activities ▲';
+            } else {
+                button.textContent = 'Activities ▼';
+            }
+        }
+        
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            const hamburger = document.querySelector('.hamburger');
+            
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+        
+        // Close menu when clicking on a link (for mobile)
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                const navLinks = document.getElementById('navLinks');
+                const hamburger = document.querySelector('.hamburger');
+                
+                if (window.innerWidth <= 768) {
+                    navLinks.classList.remove('active');
+                    hamburger.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

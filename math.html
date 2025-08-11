@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="bn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>গাড়ির গতি সনাক্তকারী | Speed Detector</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 text-gray-800 font-sans antialiased">
+    
+    <!-- Header / Navigation -->
+    <header class="bg-blue-700 text-white shadow-md">
+      <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
+        <h1 class="text-xl font-bold tracking-wide">গাড়ির গতি সনাক্তকারী</h1>
+        <nav class="mt-2 md:mt-0 space-x-4 text-sm sm:text-base">
+          <a href="/index.html" class="hover:text-blue-200">হোম</a>
+          <a href="/real-time.html" class="hover:text-blue-200">রিয়েল টাইম ছবি</a>
+          <a href="/Contact Us.html" class="hover:text-blue-200">যোগাযোগ</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Section -->
+    <main class="py-10 px-4">
+      <section class="max-w-3xl mx-auto bg-white shadow-lg rounded-2xl p-6 sm:p-10">
+        <h2 class="text-2xl sm:text-3xl font-bold text-center text-blue-800 mb-6 leading-snug">
+          গাড়ির গতি সনাক্তকারী <br class="block sm:hidden" /> (Arduino ও IR সেন্সর ভিত্তিক)
+        </h2>
+
+        <p class="mb-6 leading-relaxed text-justify text-sm sm:text-base">
+          এই টুলটি Arduino ও দুটি IR সেন্সর ব্যবহার করে গাড়ির গতি সনাক্ত করার অনুকরণ করে। সেন্সর দুটি একটি নির্দিষ্ট দূরত্বে বসানো হয় এবং গাড়িটি প্রথম ও দ্বিতীয় সেন্সর অতিক্রম করতে যে সময় নেয়, তা ব্যবহার করে গতি নির্ণয় করা হয়।
+        </p>
+
+        <!-- Formula Section -->
+        <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-600 mb-8">
+          <h3 class="text-lg font-semibold text-blue-700 mb-2">গাণিতিক সূত্র:</h3>
+          <ul class="list-disc pl-5 text-sm sm:text-base space-y-1">
+            <li><strong>গতি (মিটার/সেকেন্ড)</strong> = দূরত্ব (মিটার) ÷ সময় (সেকেন্ড)</li>
+            <li><strong>গতি (কিমি/ঘণ্টা)</strong> = (দূরত্ব ÷ সময়) × ৩.৬</li>
+          </ul>
+        </div>
+
+        <!-- Form Inputs -->
+        <div class="space-y-5">
+          <div>
+            <label for="distance" class="block mb-1 font-medium">IR সেন্সরগুলোর মধ্যকার দূরত্ব (সেমি):</label>
+            <input type="number" id="distance" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="যেমনঃ ১০" />
+          </div>
+
+          <div>
+            <label for="time" class="block mb-1 font-medium">গাড়িটির সময় (মিলিসেকেন্ড):</label>
+            <input type="number" id="time" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="যেমনঃ ২৫০" />
+          </div>
+
+          <button onclick="calculateSpeed()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-md transition duration-200">
+            গতি নির্ণয় করুন
+          </button>
+        </div>
+
+        <!-- Result Display -->
+        <div id="result" class="mt-6 hidden p-4 rounded-md bg-green-100 text-green-800 text-center font-semibold text-lg transition-all duration-300">
+          <!-- গতি এখানে দেখানো হবে -->
+        </div>
+      </section>
+    </main>
+
+    <!-- Modal Alert -->
+    <div id="customAlertModal" class="fixed inset-0 bg-black bg-opacity-40 hidden items-center justify-center z-50">
+      <div class="bg-white p-6 rounded-lg shadow-lg max-w-xs w-full text-center">
+        <h4 class="text-red-600 font-bold text-lg mb-2">ত্রুটি!</h4>
+        <p id="customAlertMessage" class="text-gray-700 mb-4"></p>
+        <button onclick="closeCustomAlert()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">ঠিক আছে</button>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+      function showCustomAlert(message) {
+        document.getElementById('customAlertMessage').innerText = message;
+        document.getElementById('customAlertModal').classList.remove('hidden');
+        document.getElementById('customAlertModal').classList.add('flex');
+      }
+
+      function closeCustomAlert() {
+        document.getElementById('customAlertModal').classList.add('hidden');
+        document.getElementById('customAlertModal').classList.remove('flex');
+      }
+
+      function calculateSpeed() {
+        const distanceCM = parseFloat(document.getElementById('distance').value);
+        const timeMS = parseFloat(document.getElementById('time').value);
+
+        if (isNaN(distanceCM) || isNaN(timeMS) || distanceCM <= 0 || timeMS <= 0) {
+          showCustomAlert("অনুগ্রহ করে সঠিক ও ধনাত্মক সংখ্যা প্রদান করুন।");
+          return;
+        }
+
+        const distanceM = distanceCM / 100;
+        const timeS = timeMS / 1000;
+        const speedMS = distanceM / timeS;
+        const speedKMH = speedMS * 3.6;
+
+        const result = document.getElementById('result');
+        result.innerText = `গাড়ির গতি: ${speedKMH.toFixed(2)} কিমি/ঘণ্টা (${speedMS.toFixed(2)} মিটার/সেকেন্ড)`;
+        result.classList.remove('hidden');
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Speedology - Interactive Application</title>
+  <!-- DaisyUI and Tailwind CSS from CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar bg-base-200 shadow-md rounded-b-lg">
+    <div class="flex-1">
+      <!-- Brand/Home Link -->
+      <a class="btn btn-ghost text-xl" href="/index.html">My Gallery</a>
+    </div>
+    <div class="flex-none">
+      <!-- Navigation Menu (can be expanded for more links) -->
+      <ul class="menu menu-horizontal px-1">
+        <li><a href="/index.html">Home</a></li>
+        <!-- Add more navigation links here if needed -->
+        <li><a href="/Contact Us.html">content Us </a></li>
+        <!-- Example of a dropdown menu -->
+        <!--
+        <li>
+          <details>
+            <summary>Parent</summary>
+            <ul class="p-2 bg-base-100 rounded-t-none">
+              <li><a>Submenu 1</a></li>
+              <li><a>Submenu 2</a></li>
+            </ul>
+          </details>
+        </li>
+        -->
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main content area for the gallery -->
+  <main class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-5">
+
+    <!-- Gallery Image Cards -->
+    <div class="card bg-base-100 shadow-sm w-full max-w-sm mx-auto rounded-lg overflow-hidden">
+      <figure class="w-full h-auto">
+        <!-- Placeholder image with specific dimensions for consistency -->
+        <img src="https://i.ibb.co/0yQzYHLb/r1-1.jpg" alt="Image 1" onerror="this.onerror=null;this.src='https://placehold.co/400x300/E0E0E0/333333?text=Image+1';"/>
+      </figure>
+    </div>
+
+    <div class="card bg-base-100 shadow-sm w-full max-w-sm mx-auto rounded-lg overflow-hidden">
+      <figure class="w-full h-auto">
+        <img src="https://i.ibb.co/bgbY9WG6/r1-2.jpg" alt="Image 2" onerror="this.onerror=null;this.src='https://placehold.co/400x300/D0D0D0/333333?text=Image+2';"/>
+      </figure>
+    </div>
+
+    <div class="card bg-base-100 shadow-sm w-full max-w-sm mx-auto rounded-lg overflow-hidden">
+      <figure class="w-full h-auto">
+        <img src="https://i.ibb.co/mFyQ4Ymn/r1.jpg" alt="Image 3" onerror="this.onerror=null;this.src='https://placehold.co/400x300/C0C0C0/333333?text=Image+3';"/>
+      </figure>
+    </div>
+
+    <div class="card bg-base-100 shadow-sm w-full max-w-sm mx-auto rounded-lg overflow-hidden">
+      <figure class="w-full h-auto">
+        <img src="https://i.ibb.co/3QQ8HTf/r2.jpg" alt="Image 4" onerror="this.onerror=null;this.src='https://placehold.co/400x300/B0B0B0/333333?text=Image+4';"/>
+      </figure>
+    </div>
+
+    <div class="card bg-base-100 shadow-sm w-full max-w-sm mx-auto rounded-lg overflow-hidden">
+      <figure class="w-full h-auto">
+        <img src="https://i.ibb.co/qYgpZ49y/r3.jpg" alt="Image 5" onerror="this.onerror=null;this.src='https://placehold.co/400x300/A0A0A0/333333?text=Image+5';"/>
+      </figure>
+    </div>
+
+    <div class="card bg-base-100 shadow-sm w-full h-full max-w-sm mx-auto rounded-lg overflow-hidden">
+      <figure class="w-full h-auto">
+        <img src="https://i.ibb.co/rGKyqttj/r4.jpg" alt="Image 6" onerror="this.onerror=null;this.src='https://placehold.co/400x300/909090/333333?text=Image+6';"/>
+      </figure>
+    </div>
+
+    <div class="card bg-base-100 shadow-sm w-full max-w-sm mx-auto rounded-lg overflow-hidden">
+      <figure class="w-full h-auto">
+        <img src="https://i.ibb.co/dssw98Cc/r5.jpg" alt="Image 7" onerror="this.onerror=null;this.src='https://placehold.co/400x300/808080/333333?text=Image+7';"/>
+      </figure>
+    </div>
+
+    <div class="card bg-base-100 shadow-sm w-full max-w-sm mx-auto rounded-lg overflow-hidden">
+      <figure class="w-full h-auto">
+        <img src="https://i.ibb.co/1GBfZvgW/r7.jpg" alt="Image 8" onerror="this.onerror=null;this.src='https://placehold.co/400x300/707070/333333?text=Image+8';"/>
+      </figure>
+    </div>
+
+        <div class="card bg-base-100 shadow-sm w-full max-w-sm mx-auto rounded-lg overflow-hidden">
+      <figure class="w-full h-auto">
+        <img src="https://i.ibb.co/1GPZzLXx/r6.jpg" alt="Image 8" onerror="this.onerror=null;this.src='https://placehold.co/400x300/707070/333333?text=Image+8';"/>
+      </figure>
+    </div>
+
+        <div class="card bg-base-100 shadow-sm w-full max-w-sm mx-auto rounded-lg overflow-hidden">
+      <figure class="w-full h-auto">
+        <img src="https://i.ibb.co/G3Fn3Sds/r8.jpg" alt="Image 8" onerror="this.onerror=null;this.src='https://placehold.co/400x300/707070/333333?text=Image+8';"/>
+      </figure>
+    </div>
+
+    <!-- Google Drive Links -->
+    <div class="card bg-base-100 shadow-sm w-full max-w-sm mx-auto rounded-lg overflow-hidden">
+      <a href="https://drive.google.com/file/d/1_NjlJdtJuiKqXlOJS7MHIDe1ZyvqOJ5m/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+        <figure class="w-full h-auto">
+          <img src="https://t4.ftcdn.net/jpg/02/55/94/55/360_F_255945532_gXYb4gPaatBY39i9KIte3K38KH3lJYIq.jpg" alt="Download 1" onerror="this.onerror=null;this.src='https://placehold.co/400x300/505050/FFFFFF?text=Download+File+1';"/>
+        </figure>
+        <div class="card-body p-4 text-center">
+          <p class="text-sm font-semibold">Download File 1</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="card bg-base-100 shadow-sm w-full max-w-sm mx-auto rounded-lg overflow-hidden">
+      <a href="https://drive.google.com/file/d/1GPvHdDJTQmx2mSD9OatGCe6N50yaXkcv/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+        <figure class="w-full h-auto">
+          <img src="https://t4.ftcdn.net/jpg/02/55/94/55/360_F_255945532_gXYb4gPaatBY39i9KIte3K38KH3lJYIq.jpg" alt="Download 2" onerror="this.onerror=null;this.src='https://placehold.co/400x300/505050/FFFFFF?text=Download+File+2';"/>
+        </figure>
+        <div class="card-body p-4 text-center">
+          <p class="text-sm font-semibold">Download File 2</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="card bg-base-100 shadow-sm w-full max-w-sm mx-auto rounded-lg overflow-hidden">
+      <a href="https://drive.google.com/file/d/17nP4szkJZ2uSi2lIybKY56aJQZIj_a-2/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+        <figure class="w-full h-auto">
+          <img src="https://t4.ftcdn.net/jpg/02/55/94/55/360_F_255945532_gXYb4gPaatBY39i9KIte3K38KH3lJYIq.jpg" alt="Download 3" onerror="this.onerror=null;this.src='https://placehold.co/400x300/505050/FFFFFF?text=Download+File+3';"/>
+        </figure>
+        <div class="card-body p-4 text-center">
+          <p class="text-sm font-semibold">Download File 3</p>
+        </div>
+      </a>
+    </div>
+
+
+  </main>
+</body>
+</html>

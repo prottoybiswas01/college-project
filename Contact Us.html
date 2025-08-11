@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speedology - Interactive Application</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles to override or add to Tailwind */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-image: url('https://placehold.co/1920x1080/1a202c/ffffff?text=Background'); /* Placeholder for your background */
+            background-size: cover; /* Cover the entire viewport */
+            background-position: center; /* Center the background image */
+            background-repeat: no-repeat; /* Do not repeat the image */
+            display: flex;
+            flex-direction: column; /* Stack nav and content */
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Fallback for the background image */
+        body {
+            background-image: url('https://i.ibb.co/HLhrXH5b/5124556.jpg');
+        }
+        
+        body::before {
+            content: "";
+            background: rgba(0, 0, 0, 0.3); /* Add a slight dark overlay for better text readability */
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+        }
+        
+        html {
+           scroll-behavior: smooth;
+        }
+
+        /* Animation for success message */
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(-25%);
+                animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+            }
+            50% {
+                transform: none;
+                animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+            }
+        }
+
+        .animate-bounce {
+            animation: bounce 1s infinite;
+        }
+
+        /* Custom form label styles */
+        .form-label {
+            display: block;
+            text-align: left;
+            margin-bottom: 0.5rem;
+            font-weight: 600; /* semi-bold */
+        }
+
+        /* Adjust content container margin to account for fixed nav bar */
+        .content-wrapper {
+            flex-grow: 1; /* Allow it to take available space */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%; /* Ensure it spans full width */
+            padding: 1rem; /* Padding for the content wrapper */
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100">
+
+    <!-- Navigation Bar -->
+    <header class="w-full bg-indigo-800 bg-opacity-90 shadow-lg fixed top-0 left-0 z-50">
+      <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <div class="text-white text-xl sm:text-2xl font-bold">গাড়ির গতি সনাক্তকারী </div>
+        
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex space-x-6 items-center">
+            <a href="index.html" class="text-white hover:text-indigo-200 transition duration-300">Home</a>
+            <a href="math.html" class="text-white hover:text-indigo-200 transition duration-300">Math</a>
+            <a href="real-time.html" class="text-white hover:text-indigo-200 transition duration-300">Real-time Picture</a>
+        </div>
+        
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden">
+            <button id="menu-btn" class="text-white focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+      </nav>
+      
+      <!-- Mobile Menu -->
+      <div id="mobile-menu" class="hidden md:hidden">
+          <a href="index.html" class="block text-center text-white py-3 text-sm hover:bg-indigo-700 transition duration-300">Home</a>
+          <a href="math.html" class="block text-center text-white py-3 text-sm hover:bg-indigo-700 transition duration-300">Math</a>
+          <a href="real-time.html" class="block text-center text-white py-3 text-sm hover:bg-indigo-700 transition duration-300">Real-time Picture</a>
+      </div>
+    </header>
+
+    <!-- Spacer div to push content down from fixed nav -->
+    <div class="pt-20 w-full"></div> 
+
+    <div class="content-wrapper">
+        <div class="bg-white bg-opacity-10 p-4 sm:p-6 md:p-8 rounded-xl shadow-2xl w-full max-w-md border border-gray-700 backdrop-blur-sm">
+            <div id="contactFormContainer">
+                <form id="contactForm" class="space-y-6">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-red-500 text-center mb-8">
+                        Contact Us!
+                    </h2>
+
+                    <!-- Name Input -->
+                    <div>
+                        <label for="name" class="form-label text-gray-200 text-lg">Name</label>
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            class="w-full px-4 py-3 bg-gray-900 bg-opacity-50 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300 ease-in-out"
+                            placeholder="Your Name"
+                            required
+                        />
+                        <p id="error-name" class="text-red-400 text-sm mt-1 hidden"></p>
+                    </div>
+
+                    <!-- Email Input -->
+                    <div>
+                        <label for="email" class="form-label text-gray-200 text-lg">Email</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            class="w-full px-4 py-3 bg-gray-900 bg-opacity-50 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300 ease-in-out"
+                            placeholder="your.email@example.com"
+                            required
+                        />
+                        <p id="error-email" class="text-red-400 text-sm mt-1 hidden"></p>
+                    </div>
+
+                    <!-- Phone Input -->
+                    <div>
+                        <label for="phone" class="form-label text-gray-200 text-lg">Phone</label>
+                        <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            class="w-full px-4 py-3 bg-gray-900 bg-opacity-50 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300 ease-in-out"
+                            placeholder="e.g., +1234567890"
+                            required
+                        />
+                        <p id="error-phone" class="text-red-400 text-sm mt-1 hidden"></p>
+                    </div>
+
+                    <!-- Message Textarea -->
+                    <div>
+                        <label for="message" class="form-label text-gray-200 text-lg">Your Message / AI's Answer</label>
+                        <textarea
+                            id="message"
+                            name="message"
+                            rows="5"
+                            class="w-full px-4 py-3 bg-gray-900 bg-opacity-50 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300 ease-in-out resize-y "
+                            placeholder="Type your question or message here..."
+                            required
+                        ></textarea>
+                        <p id="error-message" class="text-red-400 text-sm mt-1 hidden"></p>
+                    </div>
+
+                    <!-- AI Generation Button -->
+                    <button
+                        type="button"
+                        id="generateAiAnswerBtn"
+                        class="w-full bg-gradient-to-r from-green-500 to-teal-600 text-white font-bold py-3 px-6 rounded-lg hover:from-green-600 hover:to-teal-700 transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg flex items-center justify-center space-x-2"
+                    >
+                        <span id="aiLoader" class="hidden animate-spin h-5 w-5 text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </span>
+                        <span id="aiButtonText">Ask AI & Get Answer</span>
+                    </button>
+
+                    <p id="aiError" class="text-red-500 text-center mt-2 hidden"></p>
+
+                    <!-- Submit Button -->
+                    <button
+                        type="submit"
+                        id="submitButton"
+                        class="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold py-3 px-6 rounded-lg hover:from-indigo-600 hover:to-purple-700 transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg"
+                    >
+                        Send Message
+                    </button>
+
+                    <p id="submissionError" class="text-red-500 text-center mt-4 hidden">
+                        Failed to send message. Please try again later.
+                    </p>
+                </form>
+            </div>
+
+            <!-- Success Message -->
+            <div id="successMessage" class="text-center py-10 hidden">
+                <h1 class="text-3xl sm:text-4xl font-bold text-green-400 mb-4 animate-bounce">
+                    Thanks for contacting us!
+                </h1>
+                <p class="text-gray-300 text-lg">We'll get back to you shortly.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Navigation Menu Script ---
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // --- Original Form Script (Unchanged) ---
+        // DOM Elements
+        const contactForm = document.getElementById('contactForm');
+        const contactFormContainer = document.getElementById('contactFormContainer');
+        const successMessage = document.getElementById('successMessage');
+        const generateAiAnswerBtn = document.getElementById('generateAiAnswerBtn');
+        const aiLoader = document.getElementById('aiLoader');
+        const aiButtonText = document.getElementById('aiButtonText');
+        const aiErrorElement = document.getElementById('aiError');
+        const submissionErrorElement = document.getElementById('submissionError');
+        const submitButton = document.getElementById('submitButton');
+
+        // Input fields
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const phoneInput = document.getElementById('phone');
+        const messageInput = document.getElementById('message');
+
+        // State variables
+        let formStatus = 'idle'; // 'idle', 'submitting', 'success', 'error'
+
+        // Helper function to validate email format
+        function validEmail(email) {
+            const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+        // Function to show/hide validation errors
+        function showError(fieldId, message) {
+            const errorElement = document.getElementById(`error-${fieldId}`);
+            if (errorElement) {
+                errorElement.textContent = message;
+                errorElement.classList.remove('hidden');
+                document.getElementById(fieldId).classList.add('border-red-500');
+            }
+        }
+
+        function hideError(fieldId) {
+            const errorElement = document.getElementById(`error-${fieldId}`);
+            if (errorElement) {
+                errorElement.classList.add('hidden');
+                document.getElementById(fieldId).classList.remove('border-red-500');
+            }
+        }
+
+        // Function to update form status and UI
+        function setFormStatus(status) {
+            formStatus = status;
+            const inputs = contactForm.querySelectorAll('input, textarea, button');
+            inputs.forEach(input => {
+                if (input.id !== 'generateAiAnswerBtn') {
+                    input.disabled = (status === 'submitting');
+                }
+            });
+
+            generateAiAnswerBtn.disabled = !messageInput.value.trim() || status === 'submitting';
+
+            if (status === 'submitting') {
+                submitButton.textContent = 'Sending...';
+                submitButton.disabled = true;
+                submissionErrorElement.classList.add('hidden');
+            } else {
+                submitButton.textContent = 'Send Message';
+                submitButton.disabled = false;
+            }
+
+            if (status === 'success') {
+                contactFormContainer.classList.add('hidden');
+                successMessage.classList.remove('hidden');
+            } else {
+                successMessage.classList.add('hidden');
+                contactFormContainer.classList.remove('hidden');
+            }
+
+            if (status === 'error') {
+                submissionErrorElement.classList.remove('hidden');
+            } else {
+                submissionErrorElement.classList.add('hidden');
+            }
+        }
+
+        // Event listener for message input changes
+        messageInput.addEventListener('input', () => {
+            setFormStatus(formStatus);
+            aiErrorElement.classList.add('hidden');
+        });
+
+        // Event listener for form submission
+        contactForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            ['name', 'email', 'phone', 'message'].forEach(hideError);
+
+            let hasErrors = false;
+            if (!nameInput.value.trim()) { showError('name', 'Name is required'); hasErrors = true; }
+            if (!emailInput.value.trim()) { showError('email', 'Email is required'); hasErrors = true; }
+            else if (!validEmail(emailInput.value)) { showError('email', 'Invalid email format'); hasErrors = true; }
+            if (!phoneInput.value.trim()) { showError('phone', 'Phone number is required'); hasErrors = true; }
+            if (!messageInput.value.trim()) { showError('message', 'Message is required'); hasErrors = true; }
+
+            if (hasErrors) {
+                return;
+            }
+
+            setFormStatus('submitting');
+
+            const formData = {
+                name: nameInput.value,
+                email: emailInput.value,
+                phone: phoneInput.value,
+                message: messageInput.value,
+                formDataNameOrder: JSON.stringify(['name', 'email', 'phone', 'message']),
+                formGoogleSheetName: 'Sheet1',
+                formGoogleSendEmail: 'prottoybiswas575358@gmail.com',
+            };
+
+            const encoded = Object.keys(formData)
+                .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(formData[key]))
+                .join('&');
+
+            try {
+                const url = 'https://script.google.com/macros/s/AKfycbwkC00NJ3tiLJLK5mA-IVald0kl18mhv71s8pTlh6JXxbv_GGFLerpNlIQN4ocnB_ZQMA/exec';
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: encoded,
+                });
+
+                if (response.ok) {
+                    setFormStatus('success');
+                    contactForm.reset();
+                    aiErrorElement.classList.add('hidden');
+                } else {
+                    setFormStatus('error');
+                    console.error('Form submission failed:', response.statusText);
+                }
+            } catch (error) {
+                setFormStatus('error');
+                console.error('Error submitting form:', error);
+            }
+        });
+
+        // Event listener for AI generation button
+        generateAiAnswerBtn.addEventListener('click', async () => {
+            if (!messageInput.value.trim()) {
+                aiErrorElement.textContent = 'Please type a query in the message box to get an AI answer.';
+                aiErrorElement.classList.remove('hidden');
+                return;
+            }
+
+            aiLoader.classList.remove('hidden');
+            aiButtonText.textContent = 'Generating Answer...';
+            generateAiAnswerBtn.disabled = true;
+            aiErrorElement.classList.add('hidden');
+
+            try {
+                // NOTE: An API key is not needed here as it will be provided by the environment.
+                const apiKey = "AIzaSyB026_wGmTYXUJ_hS5bdV_HF0pNdTCsTUE"; 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const prompt = `Based on the following query, provide a concise and helpful answer suitable for a contact form. Do not ask follow-up questions. Query: "${messageInput.value}" Answer:`;
+                const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }] };
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates[0]?.content?.parts?.[0]) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    messageInput.value = text;
+                    aiErrorElement.classList.add('hidden');
+                } else {
+                    const errorMessage = result.error ? result.error.message : 'Could not generate an answer. Please try again.';
+                    aiErrorElement.textContent = errorMessage;
+                    aiErrorElement.classList.remove('hidden');
+                    console.error('Gemini API response error:', result);
+                }
+            } catch (error) {
+                aiErrorElement.textContent = 'Failed to connect to AI. Please check your internet connection.';
+                aiErrorElement.classList.remove('hidden');
+                console.error('Error calling Gemini API:', error);
+            } finally {
+                aiLoader.classList.add('hidden');
+                aiButtonText.textContent = 'Ask AI & Get Answer';
+                setFormStatus(formStatus); // Re-evaluate button state
+            }
+        });
+    </script>
+</body>
+</html>

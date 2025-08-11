@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speedology - Interactive Application</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;700&display=swap" rel="stylesheet">
+
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- 
+        Project: Car Speed Detector Interactive Application
+        Author: Gemini
+        Date: May 21, 2025
+        Description: This HTML file presents an interactive webpage for a car speed detection project.
+                     It includes sections for introduction, how it works (components, circuit, working principle, algorithm),
+                     implementation, results (with a chart), conclusion, references, and group members.
+                     The page is styled with Tailwind CSS and uses Chart.js for data visualization.
+                     JavaScript is used for interactivity like mobile menu, smooth scrolling, active navigation highlighting,
+                     component information modals, and a step-by-step guide.
+    -->
+    <style>
+        body {
+            font-family: 'Noto Sans Bengali', sans-serif;
+            background-color: #FFF7ED; /* bg-orange-50 */
+            color: #404040; /* text-neutral-700 */
+            scroll-behavior: smooth; /* Apply smooth scroll globally */
+        }
+        .nav-link {
+            @apply px-3 py-2 text-sm font-medium text-orange-700 hover:bg-orange-100 rounded-md transition-colors duration-150 ease-in-out;
+        }
+        .nav-link.active {
+            @apply bg-orange-500 text-white hover:bg-orange-600;
+        }
+        h1, h2, h3 {
+            color: #A16207; /* text-orange-700 */
+        }
+        .section-title {
+            @apply text-3xl font-bold mb-8 text-center; /* Increased bottom margin */
+        }
+        .subsection-title {
+            @apply text-2xl font-semibold mb-4 mt-6;
+        }
+        .card {
+            @apply bg-white p-6 rounded-xl shadow-lg border border-orange-200 hover:shadow-xl transition-shadow duration-300; /* Enhanced rounding and hover shadow */
+        }
+        .button {
+            @apply bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-150 ease-in-out shadow hover:shadow-md;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px; /* max-w-2xl */
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px; /* h-80 */
+            max-height: 400px; /* Added max-height */
+        }
+        @media (min-width: 640px) { /* sm breakpoint */
+            .chart-container {
+                height: 384px; /* sm:h-96 */
+            }
+        }
+        .flowchart-box {
+            @apply border-2 border-orange-300 p-3 my-2 text-center rounded-md bg-orange-50 text-orange-800; /* Adjusted colors */
+        }
+        .flowchart-arrow {
+            @apply text-orange-500 text-2xl font-bold my-1 text-center;
+        }
+        .component-block {
+            @apply p-4 border border-orange-300 rounded-lg shadow-md bg-white text-center h-full flex flex-col justify-between; /* Ensure consistent height and content alignment */
+        }
+        .component-block img {
+             /* Placeholder style for images - adjust as needed */
+            max-height: 96px; /* h-24 */
+            object-fit: contain;
+            margin-bottom: 0.5rem; /* mb-2 */
+        }
+        .line-horizontal {
+            @apply h-1 bg-orange-400;
+        }
+        .line-vertical {
+            @apply w-1 bg-orange-400 mx-auto;
+        }
+        /* Custom scrollbar for better aesthetics (optional) */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FFF7ED; /* bg-orange-50 */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FB923C; /* bg-orange-400 */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #F97316; /* bg-orange-500 */
+        }
+
+
+
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="bg-amber-100/90 backdrop-blur-lg shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#" class="font-bold text-xl text-orange-700">গাড়ির গতি সনাক্তকারী</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-2 lg:space-x-4">
+                        <a href="#introduction" class="nav-link active">পরিচিতি</a>
+                        <a href="#how-it-works" class="nav-link">কার্যপ্রণালী</a>
+                        <a href="/Costing.html" class="nav-link">খরচ নির্ধারণ</a>
+                        <a href="#results" class="nav-link">ফলাফল</a>
+                        <a href="#conclusion" class="nav-link">উপসংহার</a>
+                        <a href="/real-time.html" class="nav-link">রিয়েল টাইম ছবি</a>
+                        <a href="/math.html" class="nav-link block">হিসাব</a>
+                        <a href="/Contact Us.html" class="nav-link"> Contact Us</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-orange-700 hover:text-orange-600 focus:outline-none p-2 rounded-md hover:bg-orange-200" aria-label="Open menu">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="md:hidden hidden bg-amber-100 border-t border-orange-200">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#introduction" class="nav-link block active">পরিচিতি</a>
+                <a href="#how-it-works" class="nav-link block">কার্যপ্রণালী</a>
+                <a href="/Costing.html" class="nav-link block">খরচ নির্ধারণ</a>
+                <a href="#results" class="nav-link block">ফলাফল</a>
+                <a href="#conclusion" class="nav-link block">উপসংহার</a>
+                <a href="/real-time.html" class="nav-link block">রিয়েল টাইম ছবি</a>
+                <a href="/math.html" class="nav-link block">হিসাব</a>
+                <a href="/Contact Us.html" class="nav-link">যোগাযোগ করুন</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <section id="introduction" class="py-12 scroll-mt-20">
+            <h2 class="section-title">১. পরিচিতি</h2>
+            <div class="card space-y-4">
+                <p class="text-lg leading-relaxed">এই ইন্টারেক্টিভ অ্যাপ্লিকেশনটি "আরডুইনো এবং আইআর সেন্সর ব্যবহার করে গাড়ির গতি সনাক্তকারী" প্রকল্পের একটি ডিজিটাল উপস্থাপনা। এর উদ্দেশ্য হলো প্রকল্পের মূল ধারণা, কার্যকারিতা এবং ফলাফল সহজবোধ্য ও আকর্ষণীয়ভাবে তুলে ধরা। প্রকল্পটি একটি সাশ্রয়ী এবং কার্যকর গাড়ির গতি সনাক্তকরণ ব্যবস্থা তৈরির উপর আলোকপাত করে।</p>
+                <h3 class="subsection-title text-xl">সারসংক্ষেপ</h3>
+                <p class="leading-relaxed">এই প্রকল্পটি আরডুইনো মাইক্রোকন্ট্রোলার এবং দুটি ইনফ্রারেড (আইআর) সেন্সর ব্যবহার করে একটি গাড়ির গতি পরিমাপ করার পদ্ধতি বর্ণনা করে। দুটি নির্দিষ্ট বিন্দুর মধ্যে গাড়ির অতিক্রম করার সময় গণনা করে গতি নির্ণয় করা হয়। এই সিস্টেম ট্র্যাফিক পর্যবেক্ষণ, নিয়ন্ত্রিত পরিবেশে গতিসীমা প্রয়োগ এবং শিক্ষামূলক উদ্দেশ্যে কার্যকর হতে পারে।</p>
+                <h3 class="subsection-title text-xl">গুরুত্ব</h3>
+                <p class="leading-relaxed">রাস্তার নিরাপত্তা এবং ট্র্যাফিক ব্যবস্থাপনার জন্য গাড়ির গতি পর্যবেক্ষণ অত্যন্ত গুরুত্বপূর্ণ। প্রচলিত সিস্টেমগুলি ব্যয়বহুল হওয়ায়, এই প্রকল্পটি একটি সহজলভ্য এবং অর্থনৈতিক বিকল্প প্রস্তাব করে, যা ইলেকট্রনিক্স এবং প্রোগ্রামিং সম্পর্কে জানতে আগ্রহী শিক্ষার্থীদের জন্য বিশেষভাবে উপযোগী।</p>
+            </div>
+        </section>
+
+        <section id="how-it-works" class="py-12 bg-amber-100/70 rounded-xl scroll-mt-20">
+            <h2 class="section-title">২. কিভাবে কাজ করে?</h2>
+            <p class="text-center mb-10 text-lg leading-relaxed max-w-3xl mx-auto">এই অংশে আমরা জানবো গাড়ির গতি সনাক্তকারী যন্ত্রটি কী কী উপাদান দিয়ে তৈরি, কীভাবে এর সার্কিট সংযোগ করা হয়, এটি ঠিক কোন পদ্ধতিতে কাজ করে এবং এর পেছনের অ্যালগরিদম বা কার্যধারা কী। প্রতিটি ধাপ ইন্টারেক্টিভভাবে বোঝার চেষ্টা করা হবে।</p>
+
+            <div class="card mb-10">
+                <h3 class="subsection-title">উপাদানসমূহ (Components)</h3>
+                <p class="mb-6">যন্ত্রটি তৈরি করতে নিম্নলিখিত প্রধান উপাদানগুলি ব্যবহৃত হয়। প্রতিটি উপাদানের উপর ক্লিক করে তার সম্পর্কে সংক্ষিপ্ত বিবরণ জানতে পারবেন।</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <a href="https://www.amazon.in/roboCraze-Arduino-Development-Board-cable/dp/B07G4C4D8F" target="_blank" rel="noopener noreferrer" class="component-block cursor-pointer group" onclick="event.preventDefault(); showComponentInfo('আরডুইনো ইউনো', 'এটি একটি মাইক্রোকন্ট্রোলার বোর্ড যা পুরো সিস্টেমকে নিয়ন্ত্রণ করে। সেন্সর থেকে ডেটা গ্রহণ এবং গতি গণনা করার জন্য এটি প্রোগ্রাম করা হয়।')">
+                        <img src="https://i.ibb.co/b56fy94X/ardno-3.png" alt="আরডুইনো ইউনো" class="mx-auto rounded group-hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/300x200/FFEDD5/A16207?text=চিত্র+পাওয়া+ যায়নি'; this.onerror=null;">
+                        <h4 class="font-semibold text-lg mt-2">আরডুইনো ইউনো</h4>
+                    </a>
+                    <a href="https://www.amazon.in/OLatus-Ol-Ir-Sensor-Readymade-Proximity-Detecting-Readymade/dp/B07D35X961" target="_blank" rel="noopener noreferrer" class="component-block cursor-pointer group" onclick="event.preventDefault(); showComponentInfo('আইআর সেন্সর', 'ইনফ্রারেড সেন্সর গাড়ির উপস্থিতি সনাক্ত করে। দুটি সেন্সর একটি নির্দিষ্ট দূরত্বে স্থাপন করা হয়।')">
+                        <img src="https://i.ibb.co/PGRLQn3m/1.png" alt="আইআর সেন্সর" class="mx-auto rounded group-hover:opacity-80 transition-opacity" onerror="this.src='https://placehold.co/300x200/FFEDD5/A16207?text=চিত্র+পাওয়া+ যায়নি'; this.onerror=null;">
+                        <h4 class="font-semibold text-lg mt-2">আইআর সেন্সর (২টি)</h4>
+                    </a>
+                    <a href="https://www.robotechbd.com/product/electronics-components/display/lcd/1602-lcd-display/" target="_blank" rel="noopener noreferrer" class="component-block cursor-pointer group" onclick="event.preventDefault(); showComponentInfo('এলসিডি ডিসপ্লে', 'গণনাকৃত গতি প্রদর্শন করার জন্য একটি লিকুইড ক্রিস্টাল ডিসপ্লে (এলসিডি) ব্যবহৃত হয়।')">
+                        <img src="https://i.ibb.co/ns1PSGSG/lcd-2.png" alt="এলসিডি ডিসপ্লে" class="mx-auto rounded group-hover:opacity-80 transition-opacity" onerror="this.src='https://placehold.co/300x200/FFEDD5/A16207?text=চিত্র+পাওয়া+ যায়নি'; this.onerror=null;">
+                        <h4 class="font-semibold text-lg mt-2">এলসিডি ডিসপ্লে</h4>
+                    </a>
+                    <a href="https://en.wikipedia.org/wiki/Jump_wire" target="_blank" rel="noopener noreferrer" class="component-block cursor-pointer group" onclick="event.preventDefault(); showComponentInfo('এলসিডি ডিসপ্লে', 'জাম্পার তার একটি ছোট তার যা ইলেকট্রনিক সার্কিট বা ডিভাইসের মধ্যে সংযোগ স্থাপন করতে ব্যবহৃত হয়।')">
+                        <img src="https://i.ibb.co/93GB9CV1/Jumper-Wire-40-Set-Female-to-Female-removebg-preview.png" alt="jumper wire" class="mx-auto rounded group-hover:opacity-80 transition-opacity" onerror="this.src='https://placehold.co/300x200/FFEDD5/A16207?text=চিত্র+পাওয়া+ যায়নি'; this.onerror=null;">
+                        <h4 class="font-semibold text-lg mt-2">jumper wire</h4>
+                    </a>
+                </div>
+                <div id="component-info-modal" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm overflow-y-auto h-full w-full hidden flex items-center justify-center p-4 z-[100]">
+                    <div class="relative bg-white p-8 rounded-lg shadow-xl max-w-md w-full mx-auto">
+                        <button onclick="closeComponentInfo()" class="absolute top-3 right-3 text-neutral-500 hover:text-neutral-700 text-2xl" aria-label="Close modal">&times;</button>
+                        <h4 id="modal-title" class="text-xl font-bold text-orange-700 mb-4">উপাদানের তথ্য</h4>
+                        <p id="modal-description" class="text-neutral-700 mb-6 leading-relaxed"></p>
+                        <button onclick="closeComponentInfo()" class="button w-full">বন্ধ করুন</button>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+            <div class="card mb-10">
+                <h3 class="subsection-title">সংযোগ চিত্র (Conceptual Circuit Diagram)</h3>
+                <p class="mb-6">নিচে একটি সরলীকৃত ধারণাগত সার্কিট ডায়াগ্রাম এবং একটি বাস্তবায়ন চিত্র দেখানো হলো। এটি দেখায় কিভাবে প্রধান উপাদানগুলো একে অপরের সাথে সংযুক্ত থাকে।</p>
+                <div class="border-2 border-orange-300 p-6 rounded-lg bg-white">
+                    <div class="flex flex-col items-center space-y-6">
+                        <div class="component-block w-full max-w-xs">আরডুইনো ইউনো (Microcontroller)</div>
+                        <div class="flex flex-col sm:flex-row justify-around w-full max-w-2xl items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                            <div class="line-vertical h-8 sm:hidden"></div>
+                            <div class="component-block w-full sm:w-1/3">আইআর সেন্সর ১ (ইনপুট পিন)</div>
+                            <div class="line-vertical h-8 sm:hidden"></div>
+                            <div class="component-block w-full sm:w-1/3">আইআর সেন্সর ২ (ইনপুট পিন)</div>
+                            <div class="line-vertical h-8 sm:hidden"></div>
+                            <div class="component-block w-full sm:w-1/3">এলসিডি ডিসপ্লে (আউটপুট পিনসমূহ)</div>
+                        </div>
+                         <div class="w-full my-4 text-center text-2xl text-orange-500">↓ ↑</div>
+                        <img src="https://marobotic.com/wp-content/uploads/2024/01/Vehicle-Speed-Check-Circuit-Diagram-MArobotics-1536x864.png.webp" alt="Circuit Diagram Example" class="w-full max-w-2xl h-auto rounded my-4 border border-orange-200" onerror="this.alt='সার্কিট ডায়াগ্রামের উদাহরণ'; this.src='https://placehold.co/800x450/FFF7ED/A16207?text=চিত্র+পাওয়া+যায়নি'; this.onerror=null;">
+                        <div class="w-full my-4 text-center text-2xl text-orange-500">↓ ↑</div>
+                        <div class="component-block w-full max-w-xs">পাওয়ার সাপ্লাই (5V & GND)</div>
+                    </div>
+                    <p class="text-sm text-center mt-6 text-neutral-600">দ্রষ্টব্য: এটি একটি সরলীকৃত ডায়াগ্রাম। বিস্তারিত পিন সংযোগের জন্য মূল প্রতিবেদন দেখুন। আইআর সেন্সর এবং এলসিডি ডিসপ্লে আরডুইনোর ৫ভোল্ট এবং গ্রাউন্ড (GND) পিনের সাথেও সংযুক্ত থাকে।</p>
+                </div>
+            </div>
+            
+            <div class="card mb-10">
+                <h3 class="subsection-title">কার্যপ্রণালী (Working Principle)</h3>
+                <p class="mb-6">নিচের ধাপগুলো অনুসরণ করে যন্ত্রটি গাড়ির গতি নির্ণয় করে। "পরবর্তী ধাপ" বাটনে ক্লিক করে প্রতিটি ধাপ দেখুন:</p>
+                <div id="working-principle-steps" class="relative min-h-[150px] p-6 border border-orange-200 rounded-lg bg-white shadow-inner">
+                    </div>
+                <div class="flex justify-between mt-6">
+                    <button id="prev-step" class="button opacity-50" disabled>পূর্ববর্তী ধাপ</button>
+                    <button id="next-step" class="button">পরবর্তী ধাপ</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="subsection-title">অ্যালগরিদম / ফ্লোচার্ট (Algorithm / Flowchart)</h3>
+                <p class="mb-6">সিস্টেমটি যে যৌক্তিক প্রবাহ অনুসরণ করে, তা নিচে ফ্লোচার্টের মাধ্যমে দেখানো হলো:</p>
+                <div class="bg-white p-4 rounded-lg shadow-inner overflow-x-auto">
+                    <div class="flowchart-box">শুরু</div>
+                    <div class="flowchart-arrow">↓</div>
+                    <div class="flowchart-box">আরডুইনো, এলসিডি, সেন্সর পিন আরম্ভ করুন <br> সেন্সরগুলির মধ্যে দূরত্ব (D) নির্ধারণ করুন</div>
+                    <div class="flowchart-arrow">↓</div>
+                    <div class="flowchart-box">সেন্সর ১ এ গাড়ির জন্য অপেক্ষা করুন</div>
+                    <div class="flowchart-arrow">↓</div>
+                    <div class="flowchart-box">সেন্সর ১ এ গাড়ি সনাক্ত হয়েছে? 
+                        <div class="flex justify-around mt-1 text-sm">
+                            <div><span class="text-red-600 font-semibold">না ➔</span> (পুনরায় অপেক্ষা)</div>
+                            <div><span class="text-green-600 font-semibold">হ্যাঁ</span></div>
+                        </div>
+                    </div>
+                    <div class="flowchart-arrow">↓ (হ্যাঁ হলে)</div>
+                    <div class="flowchart-box">সময় রেকর্ড করুন (t1) <br> সেন্সর ২ এ গাড়ির জন্য অপেক্ষা করুন</div>
+                    <div class="flowchart-arrow">↓</div>
+                    <div class="flowchart-box">সেন্সর ২ এ গাড়ি সনাক্ত হয়েছে?
+                        <div class="flex justify-around mt-1 text-sm">
+                            <div><span class="text-red-600 font-semibold">না ➔</span> (পুনরায় অপেক্ষা)</div>
+                            <div><span class="text-green-600 font-semibold">হ্যাঁ</span></div>
+                        </div>
+                    </div>
+                    <div class="flowchart-arrow">↓ (হ্যাঁ হলে)</div>
+                    <div class="flowchart-box">সময় রেকর্ড করুন (t2) <br> সময়ের পার্থক্য গণনা করুন (Δt = t2 - t1)</div>
+                    <div class="flowchart-arrow">↓</div>
+                    <div class="flowchart-box">গতি গণনা করুন (গতি = D / Δt)</div>
+                    <div class="flowchart-arrow">↓</div>
+                    <div class="flowchart-box">এলসিডিতে গতি প্রদর্শন করুন <br> পরবর্তী সনাক্তকরণের জন্য রিসেট করুন</div>
+                    <div class="flowchart-arrow">↓</div>
+                    <div class="flowchart-box">(পুনরায় সেন্সর ১ এর জন্য অপেক্ষা)</div>
+                    <div class="flowchart-arrow">↓</div>
+                    <div class="flowchart-box">শেষ (একটি চক্রের)</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="implementation" class="py-12 scroll-mt-20">
+            <h2 class="section-title">৩. বাস্তবায়ন ও পরীক্ষা</h2>
+            <p class="text-center mb-10 text-lg leading-relaxed max-w-3xl mx-auto">এই অংশে প্রকল্পের হার্ডওয়্যার সেটআপ, সফটওয়্যার ডেভেলপমেন্ট এবং পরীক্ষার পরিবেশ সম্পর্কে সংক্ষিপ্ত আলোচনা করা হয়েছে।</p>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="card">
+                    <h3 class="subsection-title">হার্ডওয়্যার সেটআপ</h3>
+                    <p class="leading-relaxed">প্রকল্পের হার্ডওয়্যার অংশে আরডুইনো ইউনো, দুটি আইআর সেন্সর এবং একটি এলসিডি ডিসপ্লে ব্রেডবোর্ডে বা পিসিবিতে একত্রিত করা হয়। সেন্সর দুটিকে একটি নির্দিষ্ট দূরত্বে (যেমন, ০.৫ বা ১ মিটার) স্থাপন করা হয় যাতে গাড়ি অতিক্রম করার সময় সঠিকভাবে সনাক্ত করতে পারে। সঠিক সংযোগ এবং সেন্সরগুলির সঠিক অ্যালাইনমেন্ট নির্ভুলতার জন্য গুরুত্বপূর্ণ।</p>
+                </div>
+                <div class="card">
+                    <h3 class="subsection-title">সফটওয়্যার ডেভেলপমেন্ট</h3>
+                    <p class="leading-relaxed">আরডুইনো আইডিই ব্যবহার করে মাইক্রোকন্ট্রোলারের জন্য কোড লেখা হয়। মূল কোডিং অংশে থাকে:</p>
+                    <ul class="list-disc list-inside mt-3 space-y-1 text-neutral-700">
+                        <li>পিন মোড (ইনপুট/আউটপুট) সেট করা।</li>
+                        <li>আইআর সেন্সর থেকে ডিজিটাল সিগন্যাল পড়া।</li>
+                        <li>millis() বা micros() ফাংশন ব্যবহার করে সময় গণনা করা।</li>
+                        <li>গতি গণনার জন্য গাণিতিক সূত্র প্রয়োগ করা।</li>
+                        <li>এলসিডিতে ফলাফল প্রদর্শন করা।</li>
+                    </ul>
+                    <p class="mt-3 leading-relaxed">সঠিক পরিমাপের জন্য সেন্সরের সংবেদনশীলতা এবং সিস্টেমের ক্যালিব্রেশন প্রয়োজন হতে পারে।</p>
+                </div>
+            </div>
+             <div class="card mt-10">
+                <h3 class="subsection-title">পরীক্ষার পরিবেশ ও সীমাবদ্ধতা</h3>
+                <p class="leading-relaxed mb-3">সিস্টেমটি সাধারণত একটি নিয়ন্ত্রিত পরিবেশে পরীক্ষা করা হয়, যেমন একটি ইনডোর ট্র্যাক বা কম যানচলাচল যুক্ত স্থানে। পরীক্ষার সময় বিভিন্ন গতির বস্তু ব্যবহার করে ডেটা সংগ্রহ করা হয়।</p>
+                <p class="leading-relaxed font-semibold text-orange-700">কিছু সীমাবদ্ধতা:</p>
+                <ul class="list-disc list-inside mt-2 space-y-1 text-neutral-700">
+                    <li>এই সিস্টেমটি সাধারণত একটি সময়ে একটি গাড়ির গতি সনাক্ত করার জন্য উপযুক্ত।</li>
+                    <li>খুব দ্রুত বা খুব ধীরগতির গাড়ির ক্ষেত্রে নির্ভুলতা কম হতে পারে।</li>
+                    <li>আইআর সেন্সরগুলি পারিপার্শ্বিক আলো বা আবহাওয়ার কারণে প্রভাবিত হতে পারে।</li>
+                    <li>সেন্সর স্থাপনের সামান্য ত্রুটি গণনায় প্রভাব ফেলতে পারে।</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section id="results" class="py-12 bg-amber-100/70 rounded-xl scroll-mt-20">
+            <h2 class="section-title">৪. ফলাফল</h2>
+            <p class="text-center mb-10 text-lg leading-relaxed max-w-3xl mx-auto">পরীক্ষামূলকভাবে সংগৃহীত ডেটার একটি নমুনা নিচে চার্টের মাধ্যমে দেখানো হলো। এই চার্টটি প্রকৃত গতি এবং যন্ত্র দ্বারা পরিমাপিত গতির মধ্যে তুলনা প্রদর্শন করে।</p>
+            <div class="card">
+                <h3 class="subsection-title text-center">প্রকৃত গতি বনাম পরিমাপিত গতি</h3>
+                <div class="chart-container mb-6">
+                    <canvas id="speedChart"></canvas>
+                </div>
+                <p class="text-center mt-4 text-sm text-neutral-600">চার্টের বারগুলির উপর মাউস হোভার করে প্রতিটি পরীক্ষার সুনির্দিষ্ট মান দেখুন।</p>
+                 <div class="mt-8 overflow-x-auto">
+                    <h4 class="text-xl font-semibold mb-3 text-center text-orange-700">নমুনা ডেটা সারণী</h4>
+                    <table class="min-w-full w-full bg-white border border-orange-300 rounded-lg shadow">
+                        <thead class="bg-orange-200 text-orange-800">
+                            <tr>
+                                <th class="py-3 px-4 border-b border-orange-300 text-left font-semibold">পরীক্ষা</th>
+                                <th class="py-3 px-4 border-b border-orange-300 text-left font-semibold">প্রকৃত গতি (মি/সে)</th>
+                                <th class="py-3 px-4 border-b border-orange-300 text-left font-semibold">পরিমাপিত গতি (মি/সে)</th>
+                                <th class="py-3 px-4 border-b border-orange-300 text-left font-semibold">ত্রুটির হার (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-neutral-700">
+                            <tr>
+                                <td class="py-2 px-4 border-b border-orange-200">১</td>
+                                <td class="py-2 px-4 border-b border-orange-200">১.০</td>
+                                <td class="py-2 px-4 border-b border-orange-200">০.৯৫</td>
+                                <td class="py-2 px-4 border-b border-orange-200">৫.০০%</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b border-orange-200">২</td>
+                                <td class="py-2 px-4 border-b border-orange-200">১.৫</td>
+                                <td class="py-2 px-4 border-b border-orange-200">১.৪২</td>
+                                <td class="py-2 px-4 border-b border-orange-200">৫.৩৩%</td>
+                            </tr>
+                             <tr>
+                                <td class="py-2 px-4 border-b border-orange-200">৩</td>
+                                <td class="py-2 px-4 border-b border-orange-200">২.০</td>
+                                <td class="py-2 px-4 border-b border-orange-200">১.৮৮</td>
+                                <td class="py-2 px-4 border-b border-orange-200">৬.০০%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-8">
+                    <h4 class="text-xl font-semibold mb-3 text-orange-700">নির্ভুলতা বিশ্লেষণ:</h4>
+                    <p class="leading-relaxed text-neutral-700">পরিমাপকৃত গতি এবং প্রকৃত গতির মধ্যে কিছু পার্থক্য পরিলক্ষিত হতে পারে। এই ত্রুটির সম্ভাব্য কারণগুলির মধ্যে রয়েছে সেন্সর স্থাপনের সূক্ষ্মতা, সেন্সরের প্রতিক্রিয়া সময়, গাড়ির সনাক্তকরণ বিন্দুর পরিবর্তনশীলতা (যেমন, গাড়ির সামনের অংশ বা চাকা) এবং পারিপার্শ্বিক অবস্থার প্রভাব। সাধারণত, নিয়ন্ত্রিত পরিবেশে এই সিস্টেম ৫-১০% ত্রুটির মধ্যে কাজ করতে পারে, যা সাধারণ পর্যবেক্ষণের জন্য গ্রহণযোগ্য।</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="conclusion" class="py-12 scroll-mt-20">
+            <h2 class="section-title">৫. উপসংহার ও ভবিষ্যৎ সম্ভাবনা</h2>
+            <div class="card">
+                <h3 class="subsection-title">উপসংহার</h3>
+                <p class="leading-relaxed">এই প্রকল্পটি সফলভাবে প্রমাণ করেছে যে আরডুইনো এবং দুটি আইআর সেন্সর ব্যবহার করে একটি কার্যকরী এবং সাশ্রয়ী গাড়ির গতি সনাক্তকারী যন্ত্র তৈরি করা সম্ভব। সিস্টেমটি একটি নিয়ন্ত্রিত পরিবেশে যুক্তিসঙ্গতভাবে সঠিক গতি পরিমাপ করতে সক্ষম, যা জটিল এবং ব্যয়বহুল গতি সনাক্তকরণ পদ্ধতির একটি ভালো বিকল্প হতে পারে। শিক্ষামূলক উদ্দেশ্যে এবং সাধারণ পর্যবেক্ষণের জন্য এটি একটি उत्कृष्ट প্রকল্প।</p>
+                <h3 class="subsection-title mt-8">ভবিষ্যৎ সম্ভাবনা</h3>
+                <p class="leading-relaxed mb-3">এই প্রকল্পের আরও উন্নতির জন্য কিছু সম্ভাবনাময় দিক নিচে উল্লেখ করা হলো:</p>
+                <ul class="list-disc list-inside space-y-2 text-neutral-700">
+                    <li><strong>উন্নত নির্ভুলতা:</strong> আরও সুনির্দিষ্ট সেন্সর (যেমন, লেজার বা আলট্রাসনিক সেন্সর) ব্যবহার বা উন্নত অ্যালগরিদম (যেমন, ক্যালম্যান ফিল্টার) প্রয়োগ করে নির্ভুলতা বাড়ানো যেতে পারে।</li>
+                    <li><strong>ডেটা লগিং ও বিশ্লেষণ:</strong> এসডি কার্ড মডিউল বা ওয়্যারলেস ট্রান্সমিশন (যেমন ESP8266/ESP32) ব্যবহার করে সময়ের সাথে গতির ডেটা সংরক্ষণ এবং ওয়েব বা মোবাইল অ্যাপের মাধ্যমে বিশ্লেষণ করা যেতে পারে।</li>
+                    <li><strong>একাধিক লেন সমর্থন:</strong> একাধিক সেন্সর সেট ব্যবহার করে একাধিক লেনে একইসাথে গাড়ির গতি সনাক্ত করার ব্যবস্থা করা।</li>
+                    <li><strong>যানবাহন শ্রেণিবিন্যাস:</strong> অতিরিক্ত সেন্সর (যেমন, ওজন সেন্সর বা ক্যামেরা) বা বিভিন্ন প্রকার সেন্সর ব্যবহার করে যানবাহনের আকার বা প্রকার (যেমন, বাইক, গাড়ি, ট্রাক) সনাক্ত করার চেষ্টা করা যেতে পারে।</li>
+                    <li><strong>সতর্কীকরণ সিস্টেম:</strong> গতিসীমা অতিক্রম করলে স্বয়ংক্রিয়ভাবে অ্যালার্ম, আলো জ্বালানো বা সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করার ব্যবস্থা যোগ করা যেতে পারে।</li>
+                    <li><strong>আবহাওয়ারোধী ডিজাইন:</strong> যন্ত্রটিকে বাইরের পরিবেশে (বৃষ্টি, ধুলাবালি) ব্যবহারের উপযোগী করার জন্য একটি সুরক্ষিত ও টেকসই ঘের (enclosure) তৈরি করা।</li>
+                    <li><strong>সৌরশক্তি চালিত সিস্টেম:</strong> যন্ত্রটিকে আরও স্বনির্ভর করতে সোলার প্যানেল এবং রিচার্জেবল ব্যাটারি ব্যবহার করা।</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="references" class="py-12 bg-amber-100/70 rounded-xl scroll-mt-20">
+            <h2 class="section-title">৬. তথ্যসূত্র</h2>
+            <div class="card">
+                <p class="leading-relaxed mb-3">এই প্রকল্পটি তৈরির সময় এবং প্রতিবেদনটি লেখার সময় নিম্নলিখিত উৎসসমূহ থেকে তথ্য ও ধারণা নেওয়া হয়েছে (উদাহরণস্বরূপ):</p>
+                <ul class="list-disc list-inside space-y-2">
+                    <li>আরডুইনো অফিসিয়াল ওয়েবসাইট: <a href="https://www.arduino.cc/" target="_blank" rel="noopener noreferrer" class="text-orange-600 hover:underline hover:text-orange-700">https://www.arduino.cc/</a></li>
+                    <li>এফসি-৫১ আইআর সেন্সরের ডেটাশিট এবং টিউটোরিয়াল (প্রযোজ্য ক্ষেত্রে)।</li>
+                    <li>মাইক্রোকন্ট্রোলার-ভিত্তিক গতি সনাক্তকরণ সম্পর্কিত বিভিন্ন একাডেমিক পেপার এবং অনলাইন টিউটোরিয়াল (যেমন, Instructables, Hackster.io)।</li>
+                    <li>ইলেকট্রনিক্স এবং এমবেডেড সিস্টেম সম্পর্কিত বিভিন্ন ফোরাম এবং ব্লগ (যেমন, Arduino Forum, Stack Exchange)।</li>
+                    <li>"Make: Electronics" by Charles Platt (বই)।</li>
+                    <li>"Programming Arduino: Getting Started with Sketches" by Simon Monk (বই)।</li>
+                </ul>
+            </div>
+        </section>
+
+<section id="group" class="py-16 scroll-mt-20">
+    <h2 class="section-title">৭. দলীয় সদস্যবৃন্দ</h2>
+    <div class="flex flex-wrap justify-center gap-8 px-4">
+
+        <!-- Prottoy Kumar Biswas -->
+        <div class="text-center w-32">
+            <a href="/Group member Details/Prottoy.html">
+                <img src="https://i.ibb.co/WpnjGDQC/IMG-20250428-134532-removebg-preview.png" alt="Prottoy Kumar Biswas"
+                    class="w-32 h-32 rounded-full object-cover hover:opacity-90 transition-opacity"
+                    onerror="this.src='https://placehold.co/300x300/FED7AA/A16207?text=চিত্র+নেই'; this.onerror=null;">
+            </a>
+            <p class="mt-2 text-gray-800 font-semibold text-sm">Prottoy Kumar Biswas</p>
+            <p class="text-gray-600 text-xs">Roll: 638081</p>
+            <p class="text-gray-600 text-xs">পর্ব: ৭ম</p>
+        </div>
+
+        <!-- Fuad Hasan -->
+        <div class="text-center w-32">
+            <a href="/Group member Details/fuad.html">
+                <img src="https://i.ibb.co/MDyq8vPR/download.jpg" alt="Fuad Hasan"
+                    class="w-32 h-32 rounded-full object-cover hover:opacity-90 transition-opacity"
+                    onerror="this.src='https://placehold.co/300x300/FED7AA/A16207?text=চিত্র+নেই'; this.onerror=null;">
+            </a>
+            <p class="mt-2 text-gray-800 font-semibold text-sm">Fuad Hasan</p>
+            <p class="text-gray-600 text-xs">Roll: 638022</p>
+            <p class="text-gray-600 text-xs">পর্ব: ৭ম</p>
+        </div>
+
+        <!-- N.H. Abir -->
+        <div class="text-center w-32">
+            <a href="/Group member Details/N.H.html">
+                <img src="https://i.ibb.co/0RFtjzf5/470093707-1091029266098460-5354145394848502852-n.jpg" alt="N.H. Abir"
+                    class="w-32 h-32 rounded-full object-cover hover:opacity-90 transition-opacity"
+                    onerror="this.src='https://placehold.co/300x300/FED7AA/A16207?text=চিত্র+নেই'; this.onerror=null;">
+            </a>
+            <p class="mt-2 text-gray-800 font-semibold text-sm">N.H. Abir</p>
+            <p class="text-gray-600 text-xs">রোল:540832</p>
+            <p class="text-gray-600 text-xs">পর্ব: ৭ম</p>
+        </div>
+
+        <!-- Member 4 -->
+        <div class="text-center w-32">
+            <a href="/Group member Details/Tamin.html">
+                <img src="https://i.ibb.co/F4820zH9/tamin.jpg" alt="Member 4"
+                    class="w-32 h-32 rounded-full object-cover hover:opacity-90 transition-opacity"
+                    onerror="this.src='https://placehold.co/300x300/FED7AA/A16207?text=চিত্র+নেই'; this.onerror=null;">
+            </a>
+            <p class="mt-2 text-gray-800 font-semibold text-sm">Hasan Abdullah Tamim</p>
+            <p class="text-gray-600 text-xs">Roll: 638108</p>
+            <p class="text-gray-600 text-xs">পর্ব: ৭ম</p>
+        </div>
+
+        <!-- Member 5 -->
+        <div class="text-center w-32">
+            <a href="/Group member Details/samia.html">
+                <img src="https://i.ibb.co/6cCyrVkc/Samia.jpg" alt="Member 5"
+                    class="w-32 h-32 rounded-full object-cover hover:opacity-90 transition-opacity"
+                    onerror="this.src='https://placehold.co/300x300/FED7AA/A16207?text=চিত্র+নেই'; this.onerror=null;">
+            </a>
+            <p class="mt-2 text-gray-800 font-semibold text-sm">Samia Gazi</p>
+            <p class="text-gray-600 text-xs">Roll: 638080</p>
+            <p class="text-gray-600 text-xs">পর্ব: ৭ম</p>
+        </div>
+
+    </div>
+</section>
+
+
+    </main>
+
+    <footer class="bg-amber-200 text-center py-8 mt-12">
+        <p class="text-sm text-orange-800">&copy; 2024-2025 Vehicle Speed ​​Detection Project (Interactive Presentation). All rights reserved.</p>
+        <p class="text-xs text-orange-700 mt-1">Mangrove Institute of Science and Technology</p>
+    </footer>
+
+    <script>
+        // Wait for the DOM to be fully loaded before running scripts
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    mobileMenuButton.setAttribute('aria-expanded', mobileMenu.classList.contains('hidden') ? 'false' : 'true');
+                });
+            }
+
+            // Smooth scroll for internal links and active link highlighting
+            const allNavLinks = document.querySelectorAll('a.nav-link[href^="#"]');
+            allNavLinks.forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                        mobileMenuButton.setAttribute('aria-expanded', 'false');
+                    }
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        // More precise scrolling considering sticky header height
+                        const headerOffset = document.querySelector('nav').offsetHeight || 64;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            
+                        window.scrollTo({
+                             top: offsetPosition,
+                             behavior: "smooth"
+                        });
+
+                        // Update active class immediately on click
+                        allNavLinks.forEach(link => link.classList.remove('active'));
+                        // Add active class to all matching links (desktop and mobile)
+                        document.querySelectorAll(`.nav-link[href='${targetId}']`).forEach(activeLink => {
+                            activeLink.classList.add('active');
+                        });
+                    }
+                });
+            });
+            
+            // Intersection Observer for active link highlighting on scroll
+            const sections = document.querySelectorAll('section[id]');
+            const navObserverOptions = {
+                root: null, // relative to the viewport
+                rootMargin: '-80px 0px -50% 0px', // Adjust top margin for sticky nav, bottom margin to activate earlier
+                threshold: 0 // Trigger as soon as 1px is visible within margins
+            };
+
+            const sectionObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    const targetId = `#${entry.target.getAttribute('id')}`;
+                    const correspondingNavLinks = document.querySelectorAll(`.nav-link[href='${targetId}']`);
+                    
+                    if (entry.isIntersecting) {
+                        allNavLinks.forEach(link => link.classList.remove('active'));
+                        correspondingNavLinks.forEach(link => link.classList.add('active'));
+                    }
+                });
+            }, navObserverOptions);
+
+            sections.forEach(section => {
+                sectionObserver.observe(section);
+            });
+
+            // Working Principle Steps Functionality
+            const steps = [
+                { title: "ধাপ ১: আরম্ভকরণ", description: "আরডুইনো চালু হলে, এটি এলসিডি ডিসপ্লে, সেন্সর পিনগুলি (ইনপুট হিসাবে) এবং অন্যান্য প্রয়োজনীয় সেটিংস আরম্ভ করে। দুটি আইআর সেন্সরের মধ্যে ভৌত দূরত্ব (D) কোডে পূর্ব-নির্ধারিত থাকে।" },
+                { title: "ধাপ ২: সেন্সর ১ দ্বারা সনাক্তকরণ", description: "যখন একটি গাড়ি প্রথম আইআর সেন্সর (সেন্সর ১) অতিক্রম করে, সেন্সরের আউটপুট সিগন্যাল পরিবর্তিত হয়। আরডুইনো এই পরিবর্তন সনাক্ত করে এবং millis() বা micros() ফাংশন ব্যবহার করে বর্তমান সময় (t1) রেকর্ড করে।" },
+                { title: "ধাপ ৩: সেন্সর ২ দ্বারা সনাক্তকরণ", description: "গাড়িটি চলতে থাকলে, এটি দ্বিতীয় আইআর সেন্সর (সেন্সর ২) অতিক্রম করে। আরডুইনো এই সেন্সর থেকেও সিগন্যাল পরিবর্তন সনাক্ত করে এবং বর্তমান সময় (t2) রেকর্ড করে।" },
+                { title: "ধাপ ৪: সময় গণনা", description: "দুটি সেন্সর অতিক্রম করতে গাড়ির যে মোট সময় লেগেছে (Δt), তা t2 থেকে t1 বিয়োগ করে গণনা করা হয়: Δt = t2 - t1।" },
+                { title: "ধাপ ৫: গতি গণনা", description: "গাড়ির গতি (Speed) তখন দূরত্ব (D) এবং সময় (Δt) ব্যবহার করে গণনা করা হয়: Speed = D / Δt। দূরত্ব মিটারে এবং সময় সেকেন্ডে হলে, গতি মিটার/সেকেন্ডে পাওয়া যায়, যা পরে কিমি/ঘন্টায় রূপান্তর করা যেতে পারে।" },
+                { title: "ধাপ ৬: প্রদর্শন ও রিসেট", description: "গণনাকৃত গতি এলসিডি স্ক্রিনে প্রদর্শিত হয়। এরপর, সিস্টেমটি পরবর্তী গাড়ি সনাক্ত করার জন্য নিজেকে রিসেট করে এবং সেন্সর ১ এ নতুন গাড়ির জন্য অপেক্ষা শুরু করে।" }
+            ];
+            let currentStep = 0;
+            const stepsContainer = document.getElementById('working-principle-steps');
+            const prevButton = document.getElementById('prev-step');
+            const nextButton = document.getElementById('next-step');
+
+            function displayStep(stepIndex) {
+                if (!stepsContainer || !steps[stepIndex]) return;
+                const step = steps[stepIndex];
+                stepsContainer.innerHTML = `
+                    <h4 class="text-xl font-semibold text-orange-600 mb-3">${step.title}</h4>
+                    <p class="text-neutral-700 leading-relaxed">${step.description}</p>
+                `;
+                updateStepButtons();
+            }
+
+            function updateStepButtons() {
+                if (!prevButton || !nextButton) return;
+                prevButton.disabled = currentStep === 0;
+                nextButton.disabled = currentStep === steps.length - 1;
+                prevButton.classList.toggle('opacity-50', currentStep === 0);
+                prevButton.classList.toggle('cursor-not-allowed', currentStep === 0);
+                nextButton.classList.toggle('opacity-50', currentStep === steps.length - 1);
+                nextButton.classList.toggle('cursor-not-allowed', currentStep === steps.length - 1);
+            }
+
+            if (prevButton && nextButton) {
+                prevButton.addEventListener('click', () => { if (currentStep > 0) { currentStep--; displayStep(currentStep); } });
+                nextButton.addEventListener('click', () => { if (currentStep < steps.length - 1) { currentStep++; displayStep(currentStep); } });
+            }
+            displayStep(0); // Initial display
+
+            // Component Info Modal Functionality
+            const modal = document.getElementById('component-info-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalDescription = document.getElementById('modal-description');
+
+            window.showComponentInfo = function(title, description) { // Make it globally accessible
+                if (!modal || !modalTitle || !modalDescription) return;
+                modalTitle.textContent = title;
+                modalDescription.textContent = description;
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            }
+
+            window.closeComponentInfo = function() { // Make it globally accessible
+                if (!modal) return;
+                modal.classList.add('hidden');
+                document.body.style.overflow = ''; // Restore background scrolling
+            }
+            
+            if (modal) {
+                // Close modal if clicked outside the content area or on Escape key
+                modal.addEventListener('click', function(event) {
+                    if (event.target === modal) { // Clicked on the backdrop
+                        closeComponentInfo();
+                    }
+                });
+            }
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+                    closeComponentInfo();
+                }
+            });
+
+            // Chart.js Speed Chart
+            const ctx = document.getElementById('speedChart');
+            if (ctx) {
+                new Chart(ctx.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['পরীক্ষা ১', 'পরীক্ষা ২', 'পরীক্ষা ৩', 'পরীক্ষা ৪', 'পরীক্ষা ৫'],
+                        datasets: [{
+                            label: 'প্রকৃত গতি (মি/সে)',
+                            data: [1.0, 1.5, 2.0, 1.2, 1.8],
+                            backgroundColor: 'rgba(251, 146, 60, 0.7)', // Tailwind orange-400 with opacity
+                            borderColor: 'rgba(234, 88, 12, 1)', // Tailwind orange-600
+                            borderWidth: 1,
+                            borderRadius: 5,
+                        }, {
+                            label: 'পরিমাপিত গতি (মি/সে)',
+                            data: [0.95, 1.42, 1.88, 1.15, 1.70],
+                            backgroundColor: 'rgba(59, 130, 246, 0.7)', // Tailwind blue-500 with opacity
+                            borderColor: 'rgba(29, 78, 216, 1)', // Tailwind blue-700
+                            borderWidth: 1,
+                            borderRadius: 5,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: { beginAtZero: true, title: { display: true, text: 'গতি (মি/সে)', font: { family: "'Noto Sans Bengali', sans-serif" } } , ticks: { font: { family: "'Noto Sans Bengali', sans-serif" }}},
+                            x: { title: { display: true, text: 'পরীক্ষার ক্রম', font: { family: "'Noto Sans Bengali', sans-serif" } } , ticks: { font: { family: "'Noto Sans Bengali', sans-serif" }}}
+                        },
+                        plugins: {
+                            tooltip: {
+                                titleFont: { family: "'Noto Sans Bengali', sans-serif" },
+                                bodyFont: { family: "'Noto Sans Bengali', sans-serif" },
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) { label += ': '; }
+                                        if (context.parsed.y !== null) { label += context.parsed.y + ' মি/সে'; }
+                                        return label;
+                                    }
+                                }
+                            },
+                            legend: {
+                                labels: { font: { family: "'Noto Sans Bengali', sans-serif" } }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
