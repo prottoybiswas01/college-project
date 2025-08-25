@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="bn">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +10,8 @@
     <!-- Chart.js CDN লোড করা হয়েছে ডেটা ভিজ্যুয়ালাইজেশনের জন্য -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Noto Sans Bengali ফন্ট লোড করা হয়েছে বাংলা লেখার জন্য -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;700&display=swap"
+        rel="stylesheet">
 
     <!-- প্রজেক্ট: গাড়ির গতি সনাক্তকারী ইন্টারেক্টিভ অ্যাপ্লিকেশন -->
     <!-- লেখক: Gemini -->
@@ -24,93 +26,133 @@
         /* Noto Sans Bengali ফন্ট এবং সুন্দর ব্যাকগ্রাউন্ড/টেক্সট রঙের সাথে বডির জন্য বেস স্টাইল */
         body {
             font-family: 'Noto Sans Bengali', sans-serif;
-            background-color: #FFF7ED; /* bg-orange-50 */
-            color: #404040; /* text-neutral-700 */
-            scroll-behavior: smooth; /* নেভিগেশনের জন্য বিশ্বব্যাপী মসৃণ স্ক্রোল প্রয়োগ করুন */
+            background-color: #FFF7ED;
+            /* bg-orange-50 */
+            color: #404040;
+            /* text-neutral-700 */
+            scroll-behavior: smooth;
+            /* নেভিগেশনের জন্য বিশ্বব্যাপী মসৃণ স্ক্রোল প্রয়োগ করুন */
         }
+
         /* নেভিগেশন লিঙ্কগুলির জন্য স্টাইলিং */
         .nav-link {
             @apply px-3 py-2 text-sm font-medium text-orange-700 hover:bg-orange-100 rounded-md transition-colors duration-150 ease-in-out;
         }
+
         /* সক্রিয় নেভিগেশন লিঙ্কের জন্য স্টাইলিং */
         .nav-link.active {
             @apply bg-orange-500 text-white hover:bg-orange-600;
         }
+
         /* হেডিংগুলির জন্য স্টাইলিং, সামঞ্জস্যপূর্ণ ব্র্যান্ডিং রঙ বজায় রাখতে */
-        h1, h2, h3 {
-            color: #A16207; /* text-orange-700 */
+        h1,
+        h2,
+        h3 {
+            color: #A16207;
+            /* text-orange-700 */
         }
+
         /* সেকশন টাইটেলগুলির জন্য সাধারণ স্টাইলিং */
         .section-title {
-            @apply text-3xl font-bold mb-6 text-center; /* mb-8 থেকে mb-6 এ নিচের মার্জিন কমানো হয়েছে */
+            @apply text-3xl font-bold mb-6 text-center;
+            /* mb-8 থেকে mb-6 এ নিচের মার্জিন কমানো হয়েছে */
         }
+
         /* সাব-সেকশন টাইটেলগুলির জন্য সাধারণ স্টাইলিং */
         .subsection-title {
             @apply text-2xl font-semibold mb-4 mt-6;
         }
+
         /* কার্ড-সদৃশ কন্টেইনারগুলির জন্য স্টাইলিং */
         .card {
-            @apply bg-white p-6 rounded-xl shadow-lg border border-orange-200 hover:shadow-xl transition-shadow duration-300; /* উন্নত রাউন্ডিং এবং হোভার শ্যাডো */
+            @apply bg-white p-6 rounded-xl shadow-lg border border-orange-200 hover:shadow-xl transition-shadow duration-300;
+            /* উন্নত রাউন্ডিং এবং হোভার শ্যাডো */
         }
+
         /* ইন্টারেক্টিভ বাটনগুলির জন্য স্টাইলিং */
         .button {
             @apply bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-150 ease-in-out shadow hover:shadow-md;
         }
+
         /* Chart.js গ্রাফের জন্য কন্টেইনার, প্রতিক্রিয়াশীলতা নিশ্চিত করতে */
         .chart-container {
             position: relative;
             width: 100%;
-            max-width: 700px; /* max-w-2xl */
+            max-width: 700px;
+            /* max-w-2xl */
             margin-left: auto;
             margin-right: auto;
-            height: 320px; /* h-80 */
-            max-height: 400px; /* max-height যোগ করা হয়েছে */
+            height: 320px;
+            /* h-80 */
+            max-height: 400px;
+            /* max-height যোগ করা হয়েছে */
         }
+
         /* ছোট স্ক্রিনে চার্ট কন্টেইনারের জন্য প্রতিক্রিয়াশীল উচ্চতা সমন্বয় */
-        @media (min-width: 640px) { /* sm ব্রেকপয়েন্ট */
+        @media (min-width: 640px) {
+
+            /* sm ব্রেকপয়েন্ট */
             .chart-container {
-                height: 384px; /* sm:h-96 */
+                height: 384px;
+                /* sm:h-96 */
             }
         }
+
         /* ফ্লোচার্ট বক্সগুলির জন্য স্টাইলিং */
         .flowchart-box {
-            @apply border-2 border-orange-300 p-3 my-2 text-center rounded-md bg-orange-50 text-orange-800; /* রঙগুলি সামঞ্জস্য করা হয়েছে */
+            @apply border-2 border-orange-300 p-3 my-2 text-center rounded-md bg-orange-50 text-orange-800;
+            /* রঙগুলি সামঞ্জস্য করা হয়েছে */
         }
+
         /* ফ্লোচার্ট তীরগুলির জন্য স্টাইলিং */
         .flowchart-arrow {
             @apply text-orange-500 text-2xl font-bold my-1 text-center;
         }
+
         /* কম্পোনেন্ট ব্লকগুলির জন্য স্টাইলিং, সামঞ্জস্যপূর্ণ লেআউট নিশ্চিত করতে */
         .component-block {
-            @apply p-4 border border-orange-300 rounded-lg shadow-md bg-white text-center h-full flex flex-col justify-between; /* সামঞ্জস্যপূর্ণ উচ্চতা এবং বিষয়বস্তু সারিবদ্ধতা নিশ্চিত করুন */
+            @apply p-4 border border-orange-300 rounded-lg shadow-md bg-white text-center h-full flex flex-col justify-between;
+            /* সামঞ্জস্যপূর্ণ উচ্চতা এবং বিষয়বস্তু সারিবদ্ধতা নিশ্চিত করুন */
         }
+
         /* কম্পোনেন্ট ব্লকের মধ্যে চিত্রগুলির জন্য স্টাইলিং */
         .component-block img {
-             max-height: 96px; /* h-24 */
+            max-height: 96px;
+            /* h-24 */
             object-fit: contain;
-            margin-bottom: 0.5rem; /* mb-2 */
+            margin-bottom: 0.5rem;
+            /* mb-2 */
         }
+
         /* সার্কিট ডায়াগ্রামের জন্য অনুভূমিক লাইন (ধারণাগত) */
         .line-horizontal {
             @apply h-1 bg-orange-400;
         }
+
         /* সার্কিট ডায়াগ্রামের জন্য উল্লম্ব লাইন (ধারণাগত) */
         .line-vertical {
             @apply w-1 bg-orange-400 mx-auto;
         }
+
         /* ভাল নান্দনিকতার জন্য কাস্টম স্ক্রলবার (ঐচ্ছিক) */
         ::-webkit-scrollbar {
             width: 8px;
         }
+
         ::-webkit-scrollbar-track {
-            background: #FFF7ED; /* bg-orange-50 */
+            background: #FFF7ED;
+            /* bg-orange-50 */
         }
+
         ::-webkit-scrollbar-thumb {
-            background: #FB923C; /* bg-orange-400 */
+            background: #FB923C;
+            /* bg-orange-400 */
             border-radius: 4px;
         }
+
         ::-webkit-scrollbar-thumb:hover {
-            background: #F97316; /* bg-orange-500 */
+            background: #F97316;
+            /* bg-orange-500 */
         }
 
         /* কোড ব্লকের জন্য স্টাইল */
@@ -124,42 +166,67 @@
             color: #333;
             border: 1px solid #e0e0e0;
         }
+
         code {
             font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
         }
 
         /* ডেমো অ্যানিমেশনের জন্য স্টাইল */
         @keyframes moveCar {
-            from { left: 5%; }
-            to { left: 95%; }
+            from {
+                left: 5%;
+            }
+
+            to {
+                left: 95%;
+            }
         }
+
         .car-moving {
             animation: moveCar var(--car-speed, 5s) linear forwards;
         }
+
         .sensor-triggered {
-            background-color: #EF4444; /* লাল */
+            background-color: #EF4444;
+            /* লাল */
             opacity: 1;
-            transform: translateX(-50%) scale(1.2); /* সেন্সর 1 এর জন্য */
+            transform: translateX(-50%) scale(1.2);
+            /* সেন্সর 1 এর জন্য */
             transition: all 0.2s ease-out;
         }
+
         .sensor-triggered-2 {
-            background-color: #EF4444; /* লাল */
+            background-color: #EF4444;
+            /* লাল */
             opacity: 1;
-            transform: translateX(50%) scale(1.2); /* সেন্সর 2 এর জন্য */
+            transform: translateX(50%) scale(1.2);
+            /* সেন্সর 2 এর জন্য */
             transition: all 0.2s ease-out;
         }
+
         .overspeed-buzzer {
             animation: buzzerPulse 0.5s infinite alternate;
         }
+
         @keyframes buzzerPulse {
-            from { opacity: 0.5; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1.2); }
+            from {
+                opacity: 0.5;
+                transform: scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1.2);
+            }
         }
+
         .virtual-lcd p {
-            white-space: pre; /* LCD ফরম্যাটিং এর জন্য সাদা স্থান সংরক্ষণ করুন */
+            white-space: pre;
+            /* LCD ফরম্যাটিং এর জন্য সাদা স্থান সংরক্ষণ করুন */
         }
     </style>
 </head>
+
 <body class="antialiased">
 
     <!-- নেভিগেশন বার -->
@@ -185,9 +252,12 @@
                 </div>
                 <!-- মোবাইল মেনু বাটন -->
                 <div class="md:hidden">
-                    <button id="mobile-menu-button" class="text-orange-700 hover:text-orange-600 focus:outline-none p-2 rounded-md hover:bg-orange-200" aria-label="Open menu">
+                    <button id="mobile-menu-button"
+                        class="text-orange-700 hover:text-orange-600 focus:outline-none p-2 rounded-md hover:bg-orange-200"
+                        aria-label="Open menu">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16m-7 6h7" />
                         </svg>
                     </button>
                 </div>
@@ -215,52 +285,87 @@
         <section id="introduction" class="py-8 scroll-mt-20"> <!-- প্যাডিং py-12 থেকে py-8 এ কমানো হয়েছে -->
             <h2 class="section-title">১. পরিচিতি</h2>
             <div class="card space-y-4">
-                <p class="text-lg leading-relaxed">এই ইন্টারেক্টিভ অ্যাপ্লিকেশনটি "আরডুইনো এবং আইআর সেন্সর ব্যবহার করে গাড়ির গতি সনাক্তকারী" প্রকল্পের একটি ডিজিটাল উপস্থাপনা। এর উদ্দেশ্য হলো প্রকল্পের মূল ধারণা, কার্যকারিতা এবং ফলাফল সহজবোধ্য ও আকর্ষণীয়ভাবে তুলে ধরা। প্রকল্পটি একটি সাশ্রয়ী এবং কার্যকর গাড়ির গতি সনাক্তকরণ ব্যবস্থা তৈরির উপর আলোকপাত করে।</p>
+                <p class="text-lg leading-relaxed">এই ইন্টারেক্টিভ অ্যাপ্লিকেশনটি "আরডুইনো এবং আইআর সেন্সর ব্যবহার করে
+                    গাড়ির গতি সনাক্তকারী" প্রকল্পের একটি ডিজিটাল উপস্থাপনা। এর উদ্দেশ্য হলো প্রকল্পের মূল ধারণা,
+                    কার্যকারিতা এবং ফলাফল সহজবোধ্য ও আকর্ষণীয়ভাবে তুলে ধরা। প্রকল্পটি একটি সাশ্রয়ী এবং কার্যকর গাড়ির
+                    গতি সনাক্তকরণ ব্যবস্থা তৈরির উপর আলোকপাত করে।</p>
                 <h3 class="subsection-title text-xl">সারসংক্ষেপ</h3>
-                <p class="leading-relaxed">এই প্রকল্পটি আরডুইনো মাইক্রোকন্ট্রোলার এবং দুটি ইনফ্রারেড (আইআর) সেন্সর ব্যবহার করে একটি গাড়ির গতি পরিমাপ করার পদ্ধতি বর্ণনা করে। দুটি নির্দিষ্ট বিন্দুর মধ্যে গাড়ির অতিক্রম করার সময় গণনা করে গতি নির্ণয় করা হয়। এই সিস্টেম ট্র্যাফিক পর্যবেক্ষণ, নিয়ন্ত্রিত পরিবেশে গতিসীমা প্রয়োগ এবং শিক্ষামূলক উদ্দেশ্যে কার্যকর হতে পারে।</p>
+                <p class="leading-relaxed">এই প্রকল্পটি আরডুইনো মাইক্রোকন্ট্রোলার এবং দুটি ইনফ্রারেড (আইআর) সেন্সর
+                    ব্যবহার করে একটি গাড়ির গতি পরিমাপ করার পদ্ধতি বর্ণনা করে। দুটি নির্দিষ্ট বিন্দুর মধ্যে গাড়ির
+                    অতিক্রম করার সময় গণনা করে গতি নির্ণয় করা হয়। এই সিস্টেম ট্র্যাফিক পর্যবেক্ষণ, নিয়ন্ত্রিত পরিবেশে
+                    গতিসীমা প্রয়োগ এবং শিক্ষামূলক উদ্দেশ্যে কার্যকর হতে পারে।</p>
                 <h3 class="subsection-title text-xl">গুরুত্ব</h3>
-                <p class="leading-relaxed">রাস্তার নিরাপত্তা এবং ট্র্যাফিক ব্যবস্থাপনার জন্য গাড়ির গতি পর্যবেক্ষণ অত্যন্ত গুরুত্বপূর্ণ। প্রচলিত সিস্টেমগুলি ব্যয়বহুল হওয়ায়, এই প্রকল্পটি একটি সহজলভ্য এবং অর্থনৈতিক বিকল্প প্রস্তাব করে, যা ইলেকট্রনিক্স এবং প্রোগ্রামিং সম্পর্কে জানতে আগ্রহী শিক্ষার্থীদের জন্য বিশেষভাবে উপযোগী।</p>
+                <p class="leading-relaxed">রাস্তার নিরাপত্তা এবং ট্র্যাফিক ব্যবস্থাপনার জন্য গাড়ির গতি পর্যবেক্ষণ
+                    অত্যন্ত গুরুত্বপূর্ণ। প্রচলিত সিস্টেমগুলি ব্যয়বহুল হওয়ায়, এই প্রকল্পটি একটি সহজলভ্য এবং অর্থনৈতিক
+                    বিকল্প প্রস্তাব করে, যা ইলেকট্রনিক্স এবং প্রোগ্রামিং সম্পর্কে জানতে আগ্রহী শিক্ষার্থীদের জন্য
+                    বিশেষভাবে উপযোগী।</p>
             </div>
         </section>
 
         <!-- বিভাগ: কিভাবে কাজ করে? -->
-        <section id="how-it-works" class="py-8 bg-amber-100/70 rounded-xl scroll-mt-20"> <!-- প্যাডিং py-12 থেকে py-8 এ কমানো হয়েছে -->
+        <section id="how-it-works" class="py-8 bg-amber-100/70 rounded-xl scroll-mt-20">
+            <!-- প্যাডিং py-12 থেকে py-8 এ কমানো হয়েছে -->
             <h2 class="section-title">২. কিভাবে কাজ করে?</h2>
-            <p class="text-center mb-10 text-lg leading-relaxed max-w-3xl mx-auto">এই অংশে আমরা জানবো গাড়ির গতি সনাক্তকারী যন্ত্রটি কী কী উপাদান দিয়ে তৈরি, কীভাবে এর সার্কিট সংযোগ করা হয়, এটি ঠিক কোন পদ্ধতিতে কাজ করে এবং এর পেছনের অ্যালগরিদম বা কার্যধারা কী। প্রতিটি ধাপ ইন্টারেক্টিভভাবে বোঝার চেষ্টা করা হবে।</p>
+            <p class="text-center mb-10 text-lg leading-relaxed max-w-3xl mx-auto">এই অংশে আমরা জানবো গাড়ির গতি
+                সনাক্তকারী যন্ত্রটি কী কী উপাদান দিয়ে তৈরি, কীভাবে এর সার্কিট সংযোগ করা হয়, এটি ঠিক কোন পদ্ধতিতে কাজ
+                করে এবং এর পেছনের অ্যালগরিদম বা কার্যধারা কী। প্রতিটি ধাপ ইন্টারেক্টিভভাবে বোঝার চেষ্টা করা হবে।</p>
 
             <div class="card mb-10">
                 <h3 class="subsection-title">উপাদানসমূহ (Components)</h3>
-                <p class="mb-6">যন্ত্রটি তৈরি করতে নিম্নলিখিত প্রধান উপাদানগুলি ব্যবহৃত হয়। প্রতিটি উপাদানের উপর ক্লিক করে তার সম্পর্কে সংক্ষিপ্ত বিবরণ জানতে পারবেন।</p>
+                <p class="mb-6">যন্ত্রটি তৈরি করতে নিম্নলিখিত প্রধান উপাদানগুলি ব্যবহৃত হয়। প্রতিটি উপাদানের উপর ক্লিক
+                    করে তার সম্পর্কে সংক্ষিপ্ত বিবরণ জানতে পারবেন।</p>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- আরডুইনো ইউনো কম্পোনেন্ট ব্লক -->
-                    <div class="component-block cursor-pointer group" onclick="showComponentInfo('আরডুইনো ইউনো', 'এটি একটি মাইক্রোকন্ট্রোলার বোর্ড যা পুরো সিস্টেমকে নিয়ন্ত্রণ করে। সেন্সর থেকে ডেটা গ্রহণ এবং গতি গণনা করার জন্য এটি প্রোগ্রাম করা হয়।')">
-                        <img src="https://i.ibb.co/b56fy94X/ardno-3.png" alt="আরডুইনো ইউনো" class="mx-auto rounded group-hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/300x200/FFEDD5/A16207?text=চিত্র+পাওয়া+যায়নি'; this.onerror=null;">
+                    <div class="component-block cursor-pointer group"
+                        onclick="showComponentInfo('আরডুইনো ইউনো', 'এটি একটি মাইক্রোকন্ট্রোলার বোর্ড যা পুরো সিস্টেমকে নিয়ন্ত্রণ করে। সেন্সর থেকে ডেটা গ্রহণ এবং গতি গণনা করার জন্য এটি প্রোগ্রাম করা হয়।')">
+                        <img src="https://i.ibb.co/b56fy94X/ardno-3.png" alt="আরডুইনো ইউনো"
+                            class="mx-auto rounded group-hover:opacity-100 transition-opacity"
+                            onerror="this.src='https://placehold.co/300x200/FFEDD5/A16207?text=চিত্র+পাওয়া+যায়নি'; this.onerror=null;">
                         <h4 class="font-semibold text-lg mt-2">আরডুইনো ইউনো</h4>
-                        <a href="https://www.amazon.in/roboCraze-Arduino-Development-Board-cable/dp/B07G4C4D8F" target="_blank" rel="noopener noreferrer" class="text-orange-600 hover:underline text-sm mt-1 block">আরও জানুন</a>
+                        <a href="https://www.amazon.in/roboCraze-Arduino-Development-Board-cable/dp/B07G4C4D8F"
+                            target="_blank" rel="noopener noreferrer"
+                            class="text-orange-600 hover:underline text-sm mt-1 block">আরও জানুন</a>
                     </div>
                     <!-- আইআর সেন্সর কম্পোনেন্ট ব্লক -->
-                    <div class="component-block cursor-pointer group" onclick="showComponentInfo('আইআর সেন্সর', 'ইনফ্রারেড সেন্সর গাড়ির উপস্থিতি সনাক্ত করে। দুটি সেন্সর একটি নির্দিষ্ট দূরত্বে স্থাপন করা হয়।')">
-                        <img src="https://i.ibb.co/PGRLQn3m/1.png" alt="আইআর সেন্সর" class="mx-auto rounded group-hover:opacity-80 transition-opacity" onerror="this.src='https://placehold.co/300x200/FFEDD5/A16207?text=চিত্র+পাওয়া+যায়নি'; this.onerror=null;">
+                    <div class="component-block cursor-pointer group"
+                        onclick="showComponentInfo('আইআর সেন্সর', 'ইনফ্রারেড সেন্সর গাড়ির উপস্থিতি সনাক্ত করে। দুটি সেন্সর একটি নির্দিষ্ট দূরত্বে স্থাপন করা হয়।')">
+                        <img src="https://i.ibb.co/PGRLQn3m/1.png" alt="আইআর সেন্সর"
+                            class="mx-auto rounded group-hover:opacity-80 transition-opacity"
+                            onerror="this.src='https://placehold.co/300x200/FFEDD5/A16207?text=চিত্র+পাওয়া+যায়নি'; this.onerror=null;">
                         <h4 class="font-semibold text-lg mt-2">আইআর সেন্সর (২টি)</h4>
-                        <a href="https://www.amazon.in/OLatus-Ol-Ir-Sensor-Readymade-Proximity-Detecting-Readymade/dp/B07D35X961" target="_blank" rel="noopener noreferrer" class="text-orange-600 hover:underline text-sm mt-1 block">আরও জানুন</a>
+                        <a href="https://www.amazon.in/OLatus-Ol-Ir-Sensor-Readymade-Proximity-Detecting-Readymade/dp/B07D35X961"
+                            target="_blank" rel="noopener noreferrer"
+                            class="text-orange-600 hover:underline text-sm mt-1 block">আরও জানুন</a>
                     </div>
                     <!-- এলসিডি ডিসপ্লে কম্পোনেন্ট ব্লক -->
-                    <div class="component-block cursor-pointer group" onclick="showComponentInfo('এলসিডি ডিসপ্লে', 'গণনাকৃত গতি প্রদর্শন করার জন্য একটি লিকুইড ক্রিস্টাল ডিসপ্লে (এলসিডি) ব্যবহৃত হয়।')">
-                        <img src="https://i.ibb.co/ns1PSGSG/lcd-2.png" alt="এলসিডি ডিসপ্লে" class="mx-auto rounded group-hover:opacity-80 transition-opacity" onerror="this.src='https://placehold.co/300x200/FFEDD5/A16207?text=চিত্র+পাওয়া+যায়নি'; this.onerror=null;">
+                    <div class="component-block cursor-pointer group"
+                        onclick="showComponentInfo('এলসিডি ডিসপ্লে', 'গণনাকৃত গতি প্রদর্শন করার জন্য একটি লিকুইড ক্রিস্টাল ডিসপ্লে (এলসিডি) ব্যবহৃত হয়।')">
+                        <img src="https://i.ibb.co/ns1PSGSG/lcd-2.png" alt="এলসিডি ডিসপ্লে"
+                            class="mx-auto rounded group-hover:opacity-80 transition-opacity"
+                            onerror="this.src='https://placehold.co/300x200/FFEDD5/A16207?text=চিত্র+পাওয়া+যায়নি'; this.onerror=null;">
                         <h4 class="font-semibold text-lg mt-2">এলসিডি ডিসপ্লে</h4>
-                        <a href="https://www.robotechbd.com/product/electronics-components/display/lcd/1602-lcd-display/" target="_blank" rel="noopener noreferrer" class="text-orange-600 hover:underline text-sm mt-1 block">আরও জানুন</a>
+                        <a href="https://www.robotechbd.com/product/electronics-components/display/lcd/1602-lcd-display/"
+                            target="_blank" rel="noopener noreferrer"
+                            class="text-orange-600 hover:underline text-sm mt-1 block">আরও জানুন</a>
                     </div>
                     <!-- জাম্পার ওয়্যার কম্পোনেন্ট ব্লক -->
-                    <div class="component-block cursor-pointer group" onclick="showComponentInfo('জাম্পার ওয়্যার', 'জাম্পার তার একটি ছোট তার যা ইলেকট্রনিক সার্কিট বা ডিভাইসের মধ্যে সংযোগ স্থাপন করতে ব্যবহৃত হয়।')">
-                        <img src="https://i.ibb.co/93GB9CV1/Jumper-Wire-40-Set-Female-to-Female-removebg-preview.png" alt="জাম্পার ওয়্যার" class="mx-auto rounded group-hover:opacity-80 transition-opacity" onerror="this.src='https://placehold.co/300x200/FFEDD5/A16207?text=চিত্র+পাওয়া+যায়নি'; this.onerror=null;">
+                    <div class="component-block cursor-pointer group"
+                        onclick="showComponentInfo('জাম্পার ওয়্যার', 'জাম্পার তার একটি ছোট তার যা ইলেকট্রনিক সার্কিট বা ডিভাইসের মধ্যে সংযোগ স্থাপন করতে ব্যবহৃত হয়।')">
+                        <img src="https://i.ibb.co/93GB9CV1/Jumper-Wire-40-Set-Female-to-Female-removebg-preview.png"
+                            alt="জাম্পার ওয়্যার" class="mx-auto rounded group-hover:opacity-80 transition-opacity"
+                            onerror="this.src='https://placehold.co/300x200/FFEDD5/A16207?text=চিত্র+পাওয়া+যায়নি'; this.onerror=null;">
                         <h4 class="font-semibold text-lg mt-2">জাম্পার ওয়্যার</h4>
-                        <a href="https://en.wikipedia.org/wiki/Jump_wire" target="_blank" rel="noopener noreferrer" class="text-orange-600 hover:underline text-sm mt-1 block">আরও জানুন</a>
+                        <a href="https://en.wikipedia.org/wiki/Jump_wire" target="_blank" rel="noopener noreferrer"
+                            class="text-orange-600 hover:underline text-sm mt-1 block">আরও জানুন</a>
                     </div>
                 </div>
                 <!-- কম্পোনেন্ট তথ্য মডাল -->
-                <div id="component-info-modal" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm overflow-y-auto h-full w-full hidden flex items-center justify-center p-4 z-[100]">
+                <div id="component-info-modal"
+                    class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm overflow-y-auto h-full w-full hidden flex items-center justify-center p-4 z-[100]">
                     <div class="relative bg-white p-8 rounded-lg shadow-xl max-w-md w-full mx-auto">
-                        <button onclick="closeComponentInfo()" class="absolute top-3 right-3 text-neutral-500 hover:text-neutral-700 text-2xl" aria-label="Close modal">&times;</button>
+                        <button onclick="closeComponentInfo()"
+                            class="absolute top-3 right-3 text-neutral-500 hover:text-neutral-700 text-2xl"
+                            aria-label="Close modal">&times;</button>
                         <h4 id="modal-title" class="text-xl font-bold text-orange-700 mb-4">উপাদানের তথ্য</h4>
                         <p id="modal-description" class="text-neutral-700 mb-6 leading-relaxed"></p>
                         <button onclick="closeComponentInfo()" class="button w-full">বন্ধ করুন</button>
@@ -270,11 +375,13 @@
 
             <div class="card mb-10">
                 <h3 class="subsection-title">সংযোগ চিত্র (Conceptual Circuit Diagram)</h3>
-                <p class="mb-6">নিচে একটি সরলীকৃত ধারণাগত সার্কিট ডায়াগ্রাম এবং একটি বাস্তবায়ন চিত্র দেখানো হলো। এটি দেখায় কিভাবে প্রধান উপাদানগুলো একে অপরের সাথে সংযুক্ত থাকে।</p>
+                <p class="mb-6">নিচে একটি সরলীকৃত ধারণাগত সার্কিট ডায়াগ্রাম এবং একটি বাস্তবায়ন চিত্র দেখানো হলো। এটি
+                    দেখায় কিভাবে প্রধান উপাদানগুলো একে অপরের সাথে সংযুক্ত থাকে।</p>
                 <div class="border-2 border-orange-300 p-6 rounded-lg bg-white">
                     <div class="flex flex-col items-center space-y-6">
                         <div class="component-block w-full max-w-xs !h-auto">আরডুইনো ইউনো (Microcontroller)</div>
-                        <div class="flex flex-col sm:flex-row justify-around w-full max-w-2xl items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                        <div
+                            class="flex flex-col sm:flex-row justify-around w-full max-w-2xl items-center space-y-4 sm:space-y-0 sm:space-x-4">
                             <div class="line-vertical h-8 sm:hidden"></div>
                             <div class="component-block w-full sm:w-1/3 !h-auto">আইআর সেন্সর ১ (ইনপুট পিন)</div>
                             <div class="line-vertical h-8 sm:hidden"></div>
@@ -283,18 +390,25 @@
                             <div class="component-block w-full sm:w-1/3 !h-auto">এলসিডি ডিসপ্লে (আউটপুট পিনসমূহ)</div>
                         </div>
                         <div class="w-full my-4 text-center text-2xl text-orange-500">↓ ↑</div>
-                        <img src="https://marobotic.com/wp-content/uploads/2024/01/Vehicle-Speed-Check-Circuit-Diagram-MArobotics-1536x864.png.webp" alt="সার্কিট ডায়াগ্রামের উদাহরণ" class="w-full max-w-2xl h-auto rounded my-4 border border-orange-200" onerror="this.src='https://placehold.co/800x450/FFF7ED/A16207?text=চিত্র+পাওয়া+যায়নি'; this.onerror=null;">
+                        <img src="https://marobotic.com/wp-content/uploads/2024/01/Vehicle-Speed-Check-Circuit-Diagram-MArobotics-1536x864.png.webp"
+                            alt="সার্কিট ডায়াগ্রামের উদাহরণ"
+                            class="w-full max-w-2xl h-auto rounded my-4 border border-orange-200"
+                            onerror="this.src='https://placehold.co/800x450/FFF7ED/A16207?text=চিত্র+পাওয়া+যায়নি'; this.onerror=null;">
                         <div class="w-full my-4 text-center text-2xl text-orange-500">↓ ↑</div>
                         <div class="component-block w-full max-w-xs !h-auto">পাওয়ার সাপ্লাই (5V & GND)</div>
                     </div>
-                    <p class="text-sm text-center mt-6 text-neutral-600">দ্রষ্টব্য: এটি একটি সরলীকৃত ডায়াগ্রাম। বিস্তারিত পিন সংযোগের জন্য মূল প্রতিবেদন দেখুন। আইআর সেন্সর এবং এলসিডি ডিসপ্লে আরডুইনোর ৫ভোল্ট এবং গ্রাউন্ড (GND) পিনের সাথেও সংযুক্ত থাকে।</p>
+                    <p class="text-sm text-center mt-6 text-neutral-600">দ্রষ্টব্য: এটি একটি সরলীকৃত ডায়াগ্রাম।
+                        বিস্তারিত পিন সংযোগের জন্য মূল প্রতিবেদন দেখুন। আইআর সেন্সর এবং এলসিডি ডিসপ্লে আরডুইনোর ৫ভোল্ট
+                        এবং গ্রাউন্ড (GND) পিনের সাথেও সংযুক্ত থাকে।</p>
                 </div>
             </div>
-            
+
             <div class="card mb-10">
                 <h3 class="subsection-title">কার্যপ্রণালী (Working Principle)</h3>
-                <p class="mb-6">নিচের ধাপগুলো অনুসরণ করে যন্ত্রটি গাড়ির গতি নির্ণয় করে। "পরবর্তী ধাপ" বাটনে ক্লিক করে প্রতিটি ধাপ দেখুন:</p>
-                <div id="working-principle-steps" class="relative min-h-[150px] p-6 border border-orange-200 rounded-lg bg-white shadow-inner flex items-center justify-center text-center text-lg leading-relaxed">
+                <p class="mb-6">নিচের ধাপগুলো অনুসরণ করে যন্ত্রটি গাড়ির গতি নির্ণয় করে। "পরবর্তী ধাপ" বাটনে ক্লিক করে
+                    প্রতিটি ধাপ দেখুন:</p>
+                <div id="working-principle-steps"
+                    class="relative min-h-[150px] p-6 border border-orange-200 rounded-lg bg-white shadow-inner flex items-center justify-center text-center text-lg leading-relaxed">
                     <!-- ধাপগুলি এখানে গতিশীলভাবে লোড হবে -->
                 </div>
                 <div class="flex justify-between mt-6">
@@ -309,11 +423,12 @@
                 <div class="bg-white p-4 rounded-lg shadow-inner overflow-x-auto">
                     <div class="flowchart-box">শুরু</div>
                     <div class="flowchart-arrow">↓</div>
-                    <div class="flowchart-box">আরডুইনো, এলসিডি, সেন্সর পিন আরম্ভ করুন <br> সেন্সরগুলির মধ্যে দূরত্ব (D) নির্ধারণ করুন</div>
+                    <div class="flowchart-box">আরডুইনো, এলসিডি, সেন্সর পিন আরম্ভ করুন <br> সেন্সরগুলির মধ্যে দূরত্ব (D)
+                        নির্ধারণ করুন</div>
                     <div class="flowchart-arrow">↓</div>
                     <div class="flowchart-box">সেন্সর ১ এ গাড়ির জন্য অপেক্ষা করুন</div>
                     <div class="flowchart-arrow">↓</div>
-                    <div class="flowchart-box">সেন্সর ১ এ গাড়ি সনাক্ত হয়েছে? 
+                    <div class="flowchart-box">সেন্সর ১ এ গাড়ি সনাক্ত হয়েছে?
                         <div class="flex justify-around mt-1 text-sm">
                             <div><span class="text-red-600 font-semibold">না ➔</span> (পুনরায় অপেক্ষা)</div>
                             <div><span class="text-green-600 font-semibold">হ্যাঁ</span></div>
@@ -345,15 +460,20 @@
         <!-- বিভাগ: বাস্তবায়ন ও পরীক্ষা -->
         <section id="implementation" class="py-8 scroll-mt-20"> <!-- প্যাডিং py-12 থেকে py-8 এ কমানো হয়েছে -->
             <h2 class="section-title">৩. বাস্তবায়ন ও পরীক্ষা</h2>
-            <p class="text-center mb-10 text-lg leading-relaxed max-w-3xl mx-auto">এই অংশে প্রকল্পের হার্ডওয়্যার সেটআপ, সফটওয়্যার ডেভেলপমেন্ট এবং পরীক্ষার পরিবেশ সম্পর্কে সংক্ষিপ্ত আলোচনা করা হয়েছে।</p>
+            <p class="text-center mb-10 text-lg leading-relaxed max-w-3xl mx-auto">এই অংশে প্রকল্পের হার্ডওয়্যার সেটআপ,
+                সফটওয়্যার ডেভেলপমেন্ট এবং পরীক্ষার পরিবেশ সম্পর্কে সংক্ষিপ্ত আলোচনা করা হয়েছে।</p>
             <div class="grid md:grid-cols-2 gap-8">
                 <div class="card">
                     <h3 class="subsection-title">হার্ডওয়্যার সেটআপ</h3>
-                    <p class="leading-relaxed">প্রকল্পের হার্ডওয়্যার অংশে আরডুইনো ইউনো, দুটি আইআর সেন্সর এবং একটি এলসিডি ডিসপ্লে ব্রেডবোর্ডে বা পিসিবিতে একত্রিত করা হয়। সেন্সর দুটিকে একটি নির্দিষ্ট দূরত্বে (যেমন, ০.৫ বা ১ মিটার) স্থাপন করা হয় যাতে গাড়ি অতিক্রম করার সময় সঠিকভাবে সনাক্ত করতে পারে। সঠিক সংযোগ এবং সেন্সরগুলির সঠিক অ্যালাইনমেন্ট নির্ভুলতার জন্য গুরুত্বপূর্ণ।</p>
+                    <p class="leading-relaxed">প্রকল্পের হার্ডওয়্যার অংশে আরডুইনো ইউনো, দুটি আইআর সেন্সর এবং একটি
+                        এলসিডি ডিসপ্লে ব্রেডবোর্ডে বা পিসিবিতে একত্রিত করা হয়। সেন্সর দুটিকে একটি নির্দিষ্ট দূরত্বে
+                        (যেমন, ০.৫ বা ১ মিটার) স্থাপন করা হয় যাতে গাড়ি অতিক্রম করার সময় সঠিকভাবে সনাক্ত করতে পারে।
+                        সঠিক সংযোগ এবং সেন্সরগুলির সঠিক অ্যালাইনমেন্ট নির্ভুলতার জন্য গুরুত্বপূর্ণ।</p>
                 </div>
                 <div class="card">
                     <h3 class="subsection-title">সফটওয়্যার ডেভেলপমেন্ট</h3>
-                    <p class="leading-relaxed">আরডুইনো আইডিই ব্যবহার করে মাইক্রোকন্ট্রোলারের জন্য কোড লেখা হয়। মূল কোডিং অংশে থাকে:</p>
+                    <p class="leading-relaxed">আরডুইনো আইডিই ব্যবহার করে মাইক্রোকন্ট্রোলারের জন্য কোড লেখা হয়। মূল
+                        কোডিং অংশে থাকে:</p>
                     <ul class="list-disc list-inside mt-3 space-y-1 text-neutral-700">
                         <li>পিন মোড (ইনপুট/আউটপুট) সেট করা।</li>
                         <li>আইআর সেন্সর থেকে ডিজিটাল সিগন্যাল পড়া।</li>
@@ -361,12 +481,15 @@
                         <li>গতি গণনার জন্য গাণিতিক সূত্র প্রয়োগ করা।</li>
                         <li>এলসিডিতে ফলাফল প্রদর্শন করা।</li>
                     </ul>
-                    <p class="mt-3 leading-relaxed">সঠিক পরিমাপের জন্য সেন্সরের সংবেদনশীলতা এবং সিস্টেমের ক্যালিব্রেশন প্রয়োজন হতে পারে।</p>
+                    <p class="mt-3 leading-relaxed">সঠিক পরিমাপের জন্য সেন্সরের সংবেদনশীলতা এবং সিস্টেমের ক্যালিব্রেশন
+                        প্রয়োজন হতে পারে।</p>
                 </div>
             </div>
             <div class="card mt-10">
                 <h3 class="subsection-title">পরীক্ষার পরিবেশ ও সীমাবদ্ধতা</h3>
-                <p class="leading-relaxed mb-3">সিস্টেমটি সাধারণত একটি নিয়ন্ত্রিত পরিবেশে পরীক্ষা করা হয়, যেমন একটি ইনডোর ট্র্যাক বা কম যানচলাচল যুক্ত স্থানে। পরীক্ষার সময় বিভিন্ন গতির বস্তু ব্যবহার করে ডেটা সংগ্রহ করা হয়।</p>
+                <p class="leading-relaxed mb-3">সিস্টেমটি সাধারণত একটি নিয়ন্ত্রিত পরিবেশে পরীক্ষা করা হয়, যেমন একটি
+                    ইনডোর ট্র্যাক বা কম যানচলাচল যুক্ত স্থানে। পরীক্ষার সময় বিভিন্ন গতির বস্তু ব্যবহার করে ডেটা সংগ্রহ
+                    করা হয়।</p>
                 <p class="leading-relaxed font-semibold text-orange-700">কিছু সীমাবদ্ধতা:</p>
                 <ul class="list-disc list-inside mt-2 space-y-1 text-neutral-700">
                     <li>এই সিস্টেমটি সাধারণত একটি সময়ে একটি গাড়ির গতি সনাক্ত করার জন্য উপযুক্ত।</li>
@@ -378,11 +501,13 @@
         </section>
 
         <!-- নতুন বিভাগ: Arduino কোড এবং ডেমো -->
-        <section id="arduino-code" class="py-8 bg-amber-100/70 rounded-xl scroll-mt-20"> <!-- প্যাডিং py-12 থেকে py-8 এ কমানো হয়েছে -->
+        <section id="arduino-code" class="py-8 bg-amber-100/70 rounded-xl scroll-mt-20">
+            <!-- প্যাডিং py-12 থেকে py-8 এ কমানো হয়েছে -->
             <h2 class="section-title">৪. Arduino কোড</h2>
             <div class="card">
                 <h3 class="subsection-title text-center">Vehicle Speed Detector Using Arduino And IR Sensor Code</h3>
-                <p class="mb-6 leading-relaxed">আরডুইনো মাইক্রোকন্ট্রোলারের জন্য ব্যবহৃত কোডটি নিচে দেওয়া হলো, যা সেন্সর থেকে ডেটা সংগ্রহ করে এবং গাড়ির গতি গণনা ও প্রদর্শন করে:</p>
+                <p class="mb-6 leading-relaxed">আরডুইনো মাইক্রোকন্ট্রোলারের জন্য ব্যবহৃত কোডটি নিচে দেওয়া হলো, যা সেন্সর
+                    থেকে ডেটা সংগ্রহ করে এবং গাড়ির গতি গণনা ও প্রদর্শন করে:</p>
                 <pre><code class="language-cpp">
 #include &lt;LiquidCrystal.h&gt;
 
@@ -504,57 +629,80 @@ void loop() {
                 </code></pre>
                 <div class="mt-8 text-center flex flex-col sm:flex-row items-center justify-center gap-4">
                     <button id="run-demo-button" class="button inline-flex items-center">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.132l-3.397 1.704a1 1 0 01-1.385-.434l-3.397-6.793a1 1 0 011.385-.434l6.794 3.397a1 1 0 01-.434 1.385z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.828 4.172a5 5 0 00-7.07 0L8.414 6.51A7 7 0 005.61 17.657l-1.414 1.414a1 1 0 001.414 1.414l1.414-1.414a7 7 0 0011.085-3.097l.001-.001a5 5 0 000-7.07z"></path></svg>
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M14.752 11.132l-3.397 1.704a1 1 0 01-1.385-.434l-3.397-6.793a1 1 0 011.385-.434l6.794 3.397a1 1 0 01-.434 1.385z">
+                            </path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17.828 4.172a5 5 0 00-7.07 0L8.414 6.51A7 7 0 005.61 17.657l-1.414 1.414a1 1 0 001.414 1.414l1.414-1.414a7 7 0 0011.085-3.097l.001-.001a5 5 0 000-7.07z">
+                            </path>
+                        </svg>
                         ডেমো চালান
                     </button>
                 </div>
             </div>
 
             <!-- স্পিড ডিটেক্টর ডেমো এরিয়া -->
-            <div id="speed-detector-demo" class="hidden card mt-8 p-6 bg-gray-100 relative overflow-hidden" style="height: 350px;">
+            <div id="speed-detector-demo" class="hidden card mt-8 p-6 bg-gray-100 relative overflow-hidden"
+                style="height: 350px;">
                 <h3 class="subsection-title text-center text-gray-800 mb-6">গাড়ির গতি সনাক্তকারী ডেমো</h3>
                 <div class="relative w-full h-2 bg-gray-300 mt-10 rounded-full flex items-center justify-between px-4">
                     <div class="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200"></div>
                     <!-- সেন্সর 1 -->
-                    <div id="sensor1" class="absolute left-[10%] w-4 h-8 bg-blue-500 rounded-lg shadow-md flex items-center justify-center text-xs text-white font-bold opacity-80 z-10" style="transform: translateX(-50%);">IR1</div>
+                    <div id="sensor1"
+                        class="absolute left-[10%] w-4 h-8 bg-blue-500 rounded-lg shadow-md flex items-center justify-center text-xs text-white font-bold opacity-80 z-10"
+                        style="transform: translateX(-50%);">IR1</div>
                     <!-- সেন্সর 2 -->
-                    <div id="sensor2" class="absolute right-[10%] w-4 h-8 bg-blue-500 rounded-lg shadow-md flex items-center justify-center text-xs text-white font-bold opacity-80 z-10" style="transform: translateX(50%);">IR2</div>
+                    <div id="sensor2"
+                        class="absolute right-[10%] w-4 h-8 bg-blue-500 rounded-lg shadow-md flex items-center justify-center text-xs text-white font-bold opacity-80 z-10"
+                        style="transform: translateX(50%);">IR2</div>
                     <!-- গাড়ি -->
-                    <div id="demo-car" class="absolute w-12 h-6 bg-red-600 rounded-lg shadow-lg left-[5%] -translate-y-1/2 top-1/2 flex items-center justify-center text-xs text-white font-bold transition-transform duration-300 ease-linear z-20">গাড়ি</div>
+                    <div id="demo-car"
+                        class="absolute w-12 h-6 bg-red-600 rounded-lg shadow-lg left-[5%] -translate-y-1/2 top-1/2 flex items-center justify-center text-xs text-white font-bold transition-transform duration-300 ease-linear z-20">
+                        গাড়ি</div>
                 </div>
 
-                <div id="virtual-lcd" class="bg-blue-900 text-green-400 font-mono text-lg p-4 rounded-lg shadow-inner w-full max-w-sm mx-auto mt-8 flex flex-col justify-center items-center virtual-lcd">
+                <div id="virtual-lcd"
+                    class="bg-blue-900 text-green-400 font-mono text-lg p-4 rounded-lg shadow-inner w-full max-w-sm mx-auto mt-8 flex flex-col justify-center items-center virtual-lcd">
                     <p id="lcd-line1" class="whitespace-pre">Waiting Vehicle </p>
-                    <p id="lcd-line2" class="whitespace-pre">   Detection... </p>
+                    <p id="lcd-line2" class="whitespace-pre"> Detection... </p>
                 </div>
 
                 <div id="buzzer-indicator" class="hidden absolute top-4 right-4 w-8 h-8 rounded-full bg-red-500"></div>
 
                 <div class="text-center mt-6">
-                    <button id="reset-demo-button" class="button hidden bg-gray-500 hover:bg-gray-600">ডেমো রিসেট করুন</button>
+                    <button id="reset-demo-button" class="button hidden bg-gray-500 hover:bg-gray-600">ডেমো রিসেট
+                        করুন</button>
                 </div>
             </div>
         </section>
-        
+
         <!-- বিভাগ: ফলাফল -->
         <section id="results" class="py-8 scroll-mt-20"> <!-- প্যাডিং py-12 থেকে py-8 এ কমানো হয়েছে -->
             <h2 class="section-title">৫. ফলাফল</h2>
-            <p class="text-center mb-10 text-lg leading-relaxed max-w-3xl mx-auto">পরীক্ষামূলকভাবে সংগৃহীত ডেটার একটি নমুনা নিচে চার্টের মাধ্যমে দেখানো হলো। এই চার্টটি প্রকৃত গতি এবং যন্ত্র দ্বারা পরিমাপিত গতির মধ্যে তুলনা প্রদর্শন করে।</p>
+            <p class="text-center mb-10 text-lg leading-relaxed max-w-3xl mx-auto">পরীক্ষামূলকভাবে সংগৃহীত ডেটার একটি
+                নমুনা নিচে চার্টের মাধ্যমে দেখানো হলো। এই চার্টটি প্রকৃত গতি এবং যন্ত্র দ্বারা পরিমাপিত গতির মধ্যে তুলনা
+                প্রদর্শন করে।</p>
             <div class="card">
                 <h3 class="subsection-title text-center">প্রকৃত গতি বনাম পরিমাপিত গতি</h3>
                 <div class="chart-container mb-6">
                     <canvas id="speedChart"></canvas>
                 </div>
-                <p class="text-center mt-4 text-sm text-neutral-600">চার্টের বারগুলির উপর মাউস হোভার করে প্রতিটি পরীক্ষার সুনির্দিষ্ট মান দেখুন।</p>
+                <p class="text-center mt-4 text-sm text-neutral-600">চার্টের বারগুলির উপর মাউস হোভার করে প্রতিটি
+                    পরীক্ষার সুনির্দিষ্ট মান দেখুন।</p>
                 <div class="mt-8 overflow-x-auto">
                     <h4 class="text-xl font-semibold mb-3 text-center text-orange-700">নমুনা ডেটা সারণী</h4>
                     <table class="min-w-full w-full bg-white border border-orange-300 rounded-lg shadow">
                         <thead class="bg-orange-200 text-orange-800">
                             <tr>
                                 <th class="py-3 px-4 border-b border-orange-300 text-left font-semibold">পরীক্ষা</th>
-                                <th class="py-3 px-4 border-b border-orange-300 text-left font-semibold">প্রকৃত গতি (মি/সে)</th>
-                                <th class="py-3 px-4 border-b border-orange-300 text-left font-semibold">পরিমাপিত গতি (মি/সে)</th>
-                                <th class="py-3 px-4 border-b border-orange-300 text-left font-semibold">ত্রুটির হার (%)</th>
+                                <th class="py-3 px-4 border-b border-orange-300 text-left font-semibold">প্রকৃত গতি
+                                    (মি/সে)</th>
+                                <th class="py-3 px-4 border-b border-orange-300 text-left font-semibold">পরিমাপিত গতি
+                                    (মি/সে)</th>
+                                <th class="py-3 px-4 border-b border-orange-300 text-left font-semibold">ত্রুটির হার (%)
+                                </th>
                             </tr>
                         </thead>
                         <tbody class="text-neutral-700">
@@ -581,7 +729,11 @@ void loop() {
                 </div>
                 <div class="mt-8">
                     <h4 class="text-xl font-semibold mb-3 text-orange-700">নির্ভুলতা বিশ্লেষণ:</h4>
-                    <p class="leading-relaxed text-neutral-700">পরিমাপকৃত গতি এবং প্রকৃত গতির মধ্যে কিছু পার্থক্য পরিলক্ষিত হতে পারে। এই ত্রুটির সম্ভাব্য কারণগুলির মধ্যে রয়েছে সেন্সর স্থাপনের সূক্ষ্মতা, সেন্সরের প্রতিক্রিয়া সময়, গাড়ির সনাক্তকরণ বিন্দুর পরিবর্তনশীলতা (যেমন, গাড়ির সামনের অংশ বা চাকা) এবং পারিপার্শ্বিক অবস্থার প্রভাব। সাধারণত, নিয়ন্ত্রিত পরিবেশে এই সিস্টেম ৫-১০% ত্রুটির মধ্যে কাজ করতে পারে, যা সাধারণ পর্যবেক্ষণের জন্য গ্রহণযোগ্য।</p>
+                    <p class="leading-relaxed text-neutral-700">পরিমাপকৃত গতি এবং প্রকৃত গতির মধ্যে কিছু পার্থক্য
+                        পরিলক্ষিত হতে পারে। এই ত্রুটির সম্ভাব্য কারণগুলির মধ্যে রয়েছে সেন্সর স্থাপনের সূক্ষ্মতা,
+                        সেন্সরের প্রতিক্রিয়া সময়, গাড়ির সনাক্তকরণ বিন্দুর পরিবর্তনশীলতা (যেমন, গাড়ির সামনের অংশ বা
+                        চাকা) এবং পারিপার্শ্বিক অবস্থার প্রভাব। সাধারণত, নিয়ন্ত্রিত পরিবেশে এই সিস্টেম ৫-১০% ত্রুটির
+                        মধ্যে কাজ করতে পারে, যা সাধারণ পর্যবেক্ষণের জন্য গ্রহণযোগ্য।</p>
                 </div>
             </div>
         </section>
@@ -591,31 +743,53 @@ void loop() {
             <h2 class="section-title">৬. উপসংহার ও ভবিষ্যৎ সম্ভাবনা</h2>
             <div class="card">
                 <h3 class="subsection-title">উপসংহার</h3>
-                <p class="leading-relaxed">এই প্রকল্পটি সফলভাবে প্রমাণ করেছে যে আরডুইনো এবং দুটি আইআর সেন্সর ব্যবহার করে একটি কার্যকরী এবং সাশ্রয়ী গাড়ির গতি সনাক্তকারী যন্ত্র তৈরি করা সম্ভব। সিস্টেমটি একটি নিয়ন্ত্রিত পরিবেশে যুক্তিসঙ্গতভাবে সঠিক গতি পরিমাপ করতে সক্ষম, যা জটিল এবং ব্যয়বহুল গতি সনাক্তকরণ পদ্ধতির একটি ভালো বিকল্প হতে পারে। শিক্ষামূলক উদ্দেশ্যে এবং সাধারণ পর্যবেক্ষণের জন্য এটি একটি उत्कृष्ट প্রকল্প।</p>
+                <p class="leading-relaxed">এই প্রকল্পটি সফলভাবে প্রমাণ করেছে যে আরডুইনো এবং দুটি আইআর সেন্সর ব্যবহার করে
+                    একটি কার্যকরী এবং সাশ্রয়ী গাড়ির গতি সনাক্তকারী যন্ত্র তৈরি করা সম্ভব। সিস্টেমটি একটি নিয়ন্ত্রিত
+                    পরিবেশে যুক্তিসঙ্গতভাবে সঠিক গতি পরিমাপ করতে সক্ষম, যা জটিল এবং ব্যয়বহুল গতি সনাক্তকরণ পদ্ধতির একটি
+                    ভালো বিকল্প হতে পারে। শিক্ষামূলক উদ্দেশ্যে এবং সাধারণ পর্যবেক্ষণের জন্য এটি একটি उत्कृष्ट প্রকল্প।
+                </p>
                 <h3 class="subsection-title mt-8">ভবিষ্যৎ সম্ভাবনা</h3>
-                <p class="leading-relaxed mb-3">এই প্রকল্পের আরও উন্নতির জন্য কিছু সম্ভাবনাময় দিক নিচে উল্লেখ করা হলো:</p>
+                <p class="leading-relaxed mb-3">এই প্রকল্পের আরও উন্নতির জন্য কিছু সম্ভাবনাময় দিক নিচে উল্লেখ করা হলো:
+                </p>
                 <ul class="list-disc list-inside space-y-2 text-neutral-700">
-                    <li><strong>উন্নত নির্ভুলতা:</strong> আরও সুনির্দিষ্ট সেন্সর (যেমন, লেজার বা আলট্রাসনিক সেন্সর) ব্যবহার বা উন্নত অ্যালগরিদম (যেমন, ক্যালম্যান ফিল্টার) প্রয়োগ করে নির্ভুলতা বাড়ানো যেতে পারে।</li>
-                    <li><strong>ডেটা লগিং ও বিশ্লেষণ:</strong> এসডি কার্ড মডিউল বা ওয়্যারলেস ট্রান্সমিশন (যেমন ESP8266/ESP32) ব্যবহার করে সময়ের সাথে গতির ডেটা সংরক্ষণ এবং ওয়েব বা মোবাইল অ্যাপের মাধ্যমে বিশ্লেষণ করা যেতে পারে।</li>
-                    <li><strong>একাধিক লেন সমর্থন:</strong> একাধিক সেন্সর সেট ব্যবহার করে একাধিক লেনে একইসাথে গাড়ির গতি সনাক্ত করার ব্যবস্থা করা।</li>
-                    <li><strong>যানবাহন শ্রেণিবিন্যাস:</strong> অতিরিক্ত সেন্সর (যেমন, ওজন সেন্সর বা ক্যামেরা) বা বিভিন্ন প্রকার সেন্সর ব্যবহার করে যানবাহনের আকার বা প্রকার (যেমন, বাইক, গাড়ি, ট্রাক) সনাক্ত করার চেষ্টা করা যেতে পারে।</li>
-                    <li><strong>সতর্কীকরণ সিস্টেম:</strong> গতিসীমা অতিক্রম করলে স্বয়ংক্রিয়ভাবে অ্যালার্ম, আলো জ্বালানো বা সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করার ব্যবস্থা যোগ করা যেতে পারে।</li>
-                    <li><strong>আবহাওয়ারোধী ডিজাইন:</strong> যন্ত্রটিকে বাইরের পরিবেশে (বৃষ্টি, ধুলাবালি) ব্যবহারের উপযোগী করার জন্য একটি সুরক্ষিত ও টেকসই ঘের (enclosure) তৈরি করা।</li>
-                    <li><strong>সৌরশক্তি চালিত সিস্টেম:</strong> যন্ত্রটিকে আরও স্বনির্ভর করতে সোলার প্যানেল এবং রিচার্জেবল ব্যাটারি ব্যবহার করা।</li>
+                    <li><strong>উন্নত নির্ভুলতা:</strong> আরও সুনির্দিষ্ট সেন্সর (যেমন, লেজার বা আলট্রাসনিক সেন্সর)
+                        ব্যবহার বা উন্নত অ্যালগরিদম (যেমন, ক্যালম্যান ফিল্টার) প্রয়োগ করে নির্ভুলতা বাড়ানো যেতে পারে।
+                    </li>
+                    <li><strong>ডেটা লগিং ও বিশ্লেষণ:</strong> এসডি কার্ড মডিউল বা ওয়্যারলেস ট্রান্সমিশন (যেমন
+                        ESP8266/ESP32) ব্যবহার করে সময়ের সাথে গতির ডেটা সংরক্ষণ এবং ওয়েব বা মোবাইল অ্যাপের মাধ্যমে
+                        বিশ্লেষণ করা যেতে পারে।</li>
+                    <li><strong>একাধিক লেন সমর্থন:</strong> একাধিক সেন্সর সেট ব্যবহার করে একাধিক লেনে একইসাথে গাড়ির গতি
+                        সনাক্ত করার ব্যবস্থা করা।</li>
+                    <li><strong>যানবাহন শ্রেণিবিন্যাস:</strong> অতিরিক্ত সেন্সর (যেমন, ওজন সেন্সর বা ক্যামেরা) বা
+                        বিভিন্ন প্রকার সেন্সর ব্যবহার করে যানবাহনের আকার বা প্রকার (যেমন, বাইক, গাড়ি, ট্রাক) সনাক্ত
+                        করার চেষ্টা করা যেতে পারে।</li>
+                    <li><strong>সতর্কীকরণ সিস্টেম:</strong> গতিসীমা অতিক্রম করলে স্বয়ংক্রিয়ভাবে অ্যালার্ম, আলো
+                        জ্বালানো বা সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করার ব্যবস্থা যোগ করা যেতে পারে।</li>
+                    <li><strong>আবহাওয়ারোধী ডিজাইন:</strong> যন্ত্রটিকে বাইরের পরিবেশে (বৃষ্টি, ধুলাবালি) ব্যবহারের
+                        উপযোগী করার জন্য একটি সুরক্ষিত ও টেকসই ঘের (enclosure) তৈরি করা।</li>
+                    <li><strong>সৌরশক্তি চালিত সিস্টেম:</strong> যন্ত্রটিকে আরও স্বনির্ভর করতে সোলার প্যানেল এবং
+                        রিচার্জেবল ব্যাটারি ব্যবহার করা।</li>
                 </ul>
             </div>
         </section>
 
         <!-- বিভাগ: তথ্যসূত্র -->
-        <section id="references" class="py-8 bg-amber-100/70 rounded-xl scroll-mt-20"> <!-- প্যাডিং py-12 থেকে py-8 এ কমানো হয়েছে -->
+        <section id="references" class="py-8 bg-amber-100/70 rounded-xl scroll-mt-20">
+            <!-- প্যাডিং py-12 থেকে py-8 এ কমানো হয়েছে -->
             <h2 class="section-title">৭. তথ্যসূত্র</h2>
             <div class="card">
-                <p class="leading-relaxed mb-3">এই প্রকল্পটি তৈরির সময় এবং প্রতিবেদনটি লেখার সময় নিম্নলিখিত উৎসসমূহ থেকে তথ্য ও ধারণা নেওয়া হয়েছে (উদাহরণস্বরূপ):</p>
+                <p class="leading-relaxed mb-3">এই প্রকল্পটি তৈরির সময় এবং প্রতিবেদনটি লেখার সময় নিম্নলিখিত উৎসসমূহ
+                    থেকে তথ্য ও ধারণা নেওয়া হয়েছে (উদাহরণস্বরূপ):</p>
                 <ul class="list-disc list-inside space-y-2">
-                    <li>আরডুইনো অফিসিয়াল ওয়েবসাইট: <a href="https://www.arduino.cc/" target="_blank" rel="noopener noreferrer" class="text-orange-600 hover:underline hover:text-orange-700">https://www.arduino.cc/</a></li>
+                    <li>আরডুইনো অফিসিয়াল ওয়েবসাইট: <a href="https://www.arduino.cc/" target="_blank"
+                            rel="noopener noreferrer"
+                            class="text-orange-600 hover:underline hover:text-orange-700">https://www.arduino.cc/</a>
+                    </li>
                     <li>এফসি-৫১ আইআর সেন্সরের ডেটাশিট এবং টিউটোরিয়াল (প্রযোজ্য ক্ষেত্রে)।</li>
-                    <li>মাইক্রোকন্ট্রোলার-ভিত্তিক গতি সনাক্তকরণ সম্পর্কিত বিভিন্ন একাডেমিক পেপার এবং অনলাইন টিউটোরিয়াল (যেমন, Instructables, Hackster.io)।</li>
-                    <li>ইলেকট্রনিক্স এবং এমবেডেড সিস্টেম সম্পর্কিত বিভিন্ন ফোরাম এবং ব্লগ (যেমন, Arduino Forum, Stack Exchange)।</li>
+                    <li>মাইক্রোকন্ট্রোলার-ভিত্তিক গতি সনাক্তকরণ সম্পর্কিত বিভিন্ন একাডেমিক পেপার এবং অনলাইন টিউটোরিয়াল
+                        (যেমন, Instructables, Hackster.io)।</li>
+                    <li>ইলেকট্রনিক্স এবং এমবেডেড সিস্টেম সম্পর্কিত বিভিন্ন ফোরাম এবং ব্লগ (যেমন, Arduino Forum, Stack
+                        Exchange)।</li>
                     <li>"Make: Electronics" by Charles Platt (বই)।</li>
                     <li>"Programming Arduino: Getting Started with Sketches" by Simon Monk (বই)।</li>
                 </ul>
@@ -623,59 +797,93 @@ void loop() {
         </section>
 
         <!-- বিভাগ: দলীয় সদস্যবৃন্দ -->
-        <section id="group" class="py-10 scroll-mt-20"> <!-- প্যাডিং py-16 থেকে py-10 এ কমানো হয়েছে -->
-            <h2 class="section-title">৮. দলীয় সদস্যবৃন্দ</h2>
-            <div class="flex flex-wrap justify-center gap-8 px-4">
+        <!DOCTYPE html>
+        <html lang="en">
 
-                <!-- প্রতয় কুমার বিশ্বাস -->
-                <div class="text-center w-32">
-                    <a href="/Group member Details/Prottoy.html">
-                        <img src="https://i.ibb.co/WpnjGDQC/IMG-20250428-134532-removebg-preview.png" alt="Prottoy Kumar Biswas"
-                            class="w-32 h-32 rounded-full object-cover hover:opacity-90 transition-opacity"
-                            onerror="this.src='https://placehold.co/300x300/FED7AA/A16207?text=চিত্র+নেই'; this.onerror=null;">
-                    </a>
-                    <p class="mt-2 text-gray-800 font-semibold text-sm">Prottoy Kumar Biswas</p>
-                    <p class="text-gray-600 text-xs">Roll: 638081</p>
-                    <p class="text-gray-600 text-xs">পর্ব: ৭ম</p>
-                </div>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Group Members</title>
+            <script src="https://cdn.tailwindcss.com"></script>
+        </head>
 
-                <!-- ফুয়াদ হাসান -->
-                <div class="text-center w-32">
-                    <a href="/Group member Details/fuad.html">
-                        <img src="https://i.ibb.co/MDyq8vPR/download.jpg" alt="Fuad Hasan"
-                            class="w-32 h-32 rounded-full object-cover hover:opacity-90 transition-opacity"
-                            onerror="this.src='https://placehold.co/300x300/FED7AA/A16207?text=চিত্র+নেই'; this.onerror=null;">
-                    </a>
-                    <p class="mt-2 text-gray-800 font-semibold text-sm">Fuad Hasan</p>
-                    <p class="text-gray-600 text-xs">Roll: 638022</p>
-                    <p class="text-gray-600 text-xs">পর্ব: ৭ম</p>
-                </div>
+        <body>
 
-                <!-- এন.এইচ. আবির -->
-                <div class="text-center w-32">
-                    <a href="/Group member Details/N.H.html">
-                        <img src="https://i.ibb.co/0RFtjzf5/470093707-1091029266098460-5354145394848502852-n.jpg" alt="N.H. Abir"
-                            class="w-32 h-32 rounded-full object-cover hover:opacity-90 transition-opacity"
-                            onerror="this.src='https://placehold.co/300x300/FED7AA/A16207?text=চিত্র+নেই'; this.onerror=null;">
-                    </a>
-                    <p class="mt-2 text-gray-800 font-semibold text-sm">N.H. Abir</p>
-                    <p class="text-gray-600 text-xs">রোল:540832</p>
-                    <p class="text-gray-600 text-xs">পর্ব: ৭ম</p>
-                </div>
+            <section id="group" class="py-10 scroll-mt-30">
+                <h2 class="section-title text-center text-3xl font-bold mb-8">৮. দলীয় সদস্যবৃন্দ</h2>
+                <div class="flex flex-wrap justify-center gap-12 px-5">
 
-                <!-- হাসান আব্দুল্লাহ তামিম -->
-                <div class="text-center w-32">
-                    <a href="/Group member Details/Tamin.html">
-                        <img src="https://i.ibb.co/F4820zH9/tamin.jpg" alt="Hasan Abdullah Tamim"
-                            class="w-32 h-32 rounded-full object-cover hover:opacity-90 transition-opacity"
-                            onerror="this.src='https://placehold.co/300x300/FED7AA/A16207?text=চিত্র+নেই'; this.onerror=null;">
-                    </a>
-                    <p class="mt-2 text-gray-800 font-semibold text-sm">Hasan Abdullah Tamim</p>
-                    <p class="text-gray-600 text-xs">Roll: 638108</p>
-                    <p class="text-gray-600 text-xs">পর্ব: ৭ম</p>
+                    
+                    <div class="text-center w-32">
+                        <a href="/Group member Details/Prottoy.html">
+                            <img src="https://i.ibb.co/WpnjGDQC/IMG-20250428-134532-removebg-preview.png"
+                                alt="Prottoy Kumar Biswas"
+                                class="w-32 h-32 rounded-full object-cover hover:opacity-90 transition-opacity"
+                                onerror="this.src='https://placehold.co/300x300/FED7AA/A16207?text=চিত্র+নেই'; this.onerror=null;">
+                        </a>
+                        <p class="mt-2 text-gray-800 font-semibold text-sm">Prottoy Kumar Biswas</p>
+                        <p class="text-gray-600 text-xs">Roll: 638081</p>
+                        <p class="text-gray-600 text-xs">পর্ব: ৭ম</p>
+                    </div>
+
+                    <div class="text-center w-32">
+                        <a href="/Group member Details/fuad.html">
+                            <img src="https://i.ibb.co/MDyq8vPR/download.jpg" alt="Fuad Hasan"
+                                class="w-32 h-32 rounded-full object-cover hover:opacity-90 transition-opacity"
+                                onerror="this.src='https://placehold.co/300x300/FED7AA/A16207?text=চিত্র+নেই'; this.onerror=null;">
+                        </a>
+                        <p class="mt-2 text-gray-800 font-semibold text-sm">Fuad Hasan</p>
+                        <p class="text-gray-600 text-xs">Roll: 638022</p>
+                        <p class="text-gray-600 text-xs">পর্ব: ৭ম</p>
+                    </div>
+                    
+                    
+                    
+                    
+                    <div class="text-center w-32">
+                        <a href="/Group member Details/N.H.html">
+                            <img src="https://i.ibb.co/0RFtjzf5/470093707-1091029266098460-5354145394848502852-n.jpg"
+                                alt="N.H. Abir"
+                                class="w-32 h-32 rounded-full object-cover hover:opacity-90 transition-opacity"
+                                onerror="this.src='https://placehold.co/300x300/FED7AA/A16207?text=চিত্র+নেই'; this.onerror=null;">
+                        </a>
+                        <p class="mt-2 text-gray-800 font-semibold text-sm">N.H. Abir</p>
+                        <p class="text-gray-600 text-xs">রোল: 540832</p>
+                        <p class="text-gray-600 text-xs">পর্ব: ৭ম</p>
+                    </div>
+
+
+                    <div class="text-center w-32">
+                        <a href="/Group member Details/Tamin.html">
+                            <img src="https://i.ibb.co/F4820zH9/tamin.jpg" alt="Hasan Abdullah Tamim"
+                                class="w-32 h-32 rounded-full object-cover hover:opacity-90 transition-opacity"
+                                onerror="this.src='https://placehold.co/300x300/FED7AA/A16207?text=চিত্র+নেই'; this.onerror=null;">
+                        </a>
+                        <p class="mt-2 text-gray-800 font-semibold text-sm">Hasan Abdullah Tamim</p>
+                        <p class="text-gray-600 text-xs">Roll: 638108</p>
+                        <p class="text-gray-600 text-xs">পর্ব: ৭ম</p>
+                    </div>
+                    
+                    <div class="text-center w-32">
+                        <a href="/Group member Details/samia.html">
+                            <img src="https://i.ibb.co/6cCyrVkc/Samia.jpg" alt="Samia gazi"
+                                class="w-32 h-32 rounded-full object-cover hover:opacity-90 transition-opacity"
+                                onerror="this.src='https://placehold.co/300x300/FED7AA/A16207?text=চিত্র+নেই'; this.onerror=null;">
+                        </a>
+                        <p class="mt-2 text-gray-800 font-semibold text-sm">Samia gazi</p>
+                        <p class="text-gray-600 text-xs">Roll: 638080</p>
+                        <p class="text-gray-600 text-xs">পর্ব: ৭ম</p>
+                    </div>
+
+                     
+
                 </div>
-            </div>
-        </section>
+            </section>
+
+        </body>
+
+        </html>
+        ```
 
     </main>
 
@@ -984,7 +1192,7 @@ void loop() {
                 const minRandomSpeedKmHr = 10;
                 const maxRandomSpeedKmHr = 30;
                 const currentCarSpeedKmHr = Math.random() * (maxRandomSpeedKmHr - minRandomSpeedKmHr) + minRandomSpeedKmHr;
-                
+
                 const speedMs = currentCarSpeedKmHr / 3.6; // গতির গণনার জন্য m/s এ রূপান্তর করুন
 
                 // সিমুলেটেড গতির উপর ভিত্তি করে গাড়ির অ্যানিমেশনের সময়কাল গণনা করুন
@@ -1062,4 +1270,5 @@ void loop() {
         });
     </script>
 </body>
+
 </html>
